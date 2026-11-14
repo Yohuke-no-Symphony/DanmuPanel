@@ -1,3 +1,4 @@
+using Yohuke.DanmuPanel.Windowing;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -57,7 +58,7 @@ public sealed class MessageFeedInteractionTests
         var completed = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
         scheduler.Completed += (_, _) => completed.TrySetResult();
         Exception? error = null;
-        var view = new MessageFeedView(runtime, kind, value => error = value);
+        var view = new MessageFeedView(new WindowConfirmationService(), runtime, kind, value => error = value);
         var window = new Window { Width = 800, Height = 600, Content = view };
         try
         {
@@ -106,7 +107,7 @@ public sealed class MessageFeedInteractionTests
         await runtime.Messages.AppendAsync(older, new());
         await runtime.Messages.AppendAsync(newer, new());
         Exception? error = null;
-        var view = new MessageFeedView(runtime, MessageKind.Danmu, value => error = value);
+        var view = new MessageFeedView(new WindowConfirmationService(), runtime, MessageKind.Danmu, value => error = value);
         var window = new Window { Width = 800, Height = 600, Content = view };
         try
         {
@@ -143,7 +144,7 @@ public sealed class MessageFeedInteractionTests
         await runtime.Messages.AppendAsync(older, new());
         await runtime.Messages.AppendAsync(newer, new());
         Exception? error = null;
-        var view = new MessageFeedView(runtime, MessageKind.SuperChat, value => error = value);
+        var view = new MessageFeedView(new WindowConfirmationService(), runtime, MessageKind.SuperChat, value => error = value);
         var window = new Window { Width = 800, Height = 600, Content = view };
         try
         {
@@ -227,7 +228,7 @@ public sealed class MessageFeedInteractionTests
         await runtime.Messages.AppendAsync(first, new());
         await runtime.Messages.AppendAsync(second, new());
         Exception? error = null;
-        var view = new MessageFeedView(runtime, kind, value => error = value);
+        var view = new MessageFeedView(new WindowConfirmationService(), runtime, kind, value => error = value);
         var window = new Window { Width = 800, Height = 600, Content = view };
         try
         {
@@ -267,7 +268,7 @@ public sealed class MessageFeedInteractionTests
     {
         using var directory = new MessageStoreTestDirectory();
         await using var runtime = CreateRuntime(directory);
-        var view = new MessageFeedView(runtime, MessageKind.Danmu, exception => throw exception);
+        var view = new MessageFeedView(new WindowConfirmationService(), runtime, MessageKind.Danmu, exception => throw exception);
         var originalLanguage = Localization.SelectedLanguageID;
         try
         {
@@ -313,7 +314,7 @@ public sealed class MessageFeedInteractionTests
                 Time = DateTimeOffset.UtcNow.AddSeconds(index)
             }, new());
         }
-        var view = new MessageFeedView(runtime, MessageKind.Danmu, exception => throw exception);
+        var view = new MessageFeedView(new WindowConfirmationService(), runtime, MessageKind.Danmu, exception => throw exception);
         var window = new Window { Width = 800, Height = 600, Content = view };
         try
         {

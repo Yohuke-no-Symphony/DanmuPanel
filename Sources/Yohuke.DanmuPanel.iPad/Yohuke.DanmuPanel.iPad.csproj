@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <TargetFramework>net10.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
+        <RootNamespace>Yohuke.DanmuPanel.iPad</RootNamespace>
+    </PropertyGroup>
+    <ItemGroup>
+        <ProjectReference Include="../Yohuke.DanmuPanel.Shared/Yohuke.DanmuPanel.Shared.csproj" />
+        <PackageReference Include="Avalonia.Controls.WebView" Version="11.4.0" />
+        <PackageReference Include="Avalonia.Fonts.Inter" Version="11.3.13" />
+    </ItemGroup>
+</Project>

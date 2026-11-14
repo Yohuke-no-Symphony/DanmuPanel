@@ -1,3 +1,4 @@
+using Yohuke.DanmuPanel.Windowing;
 using System.Collections.ObjectModel;
 using Avalonia;
 using Avalonia.Controls;
@@ -44,7 +45,7 @@ public sealed class MessageBorderRenderingTests
             RoomTabId = room.Id, RoomId = room.RoomId, Kind = kind, UserName = "viewer",
             Content = "message", GiftName = "gift", GuardLevel = 3, UnitPrice = 2, TotalPrice = 2
         }, new());
-        var view = new MessageFeedView(runtime, kind, exception => throw exception);
+        var view = new MessageFeedView(new WindowConfirmationService(), runtime, kind, exception => throw exception);
         var window = new Window { Content = view, Width = 760, Height = 420 };
         try
         {

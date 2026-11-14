@@ -1,3 +1,4 @@
+using Yohuke.DanmuPanel.Windowing;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Headless;
@@ -37,7 +38,7 @@ public sealed class MessageFeedAvatarTests
         var settings = runtime.Configuration.Settings;
         settings.CompactDanmuDisplay = false;
         await runtime.Messages.AppendAsync(CreateMessage(kind, 0), settings.Reading);
-        var view = new MessageFeedView(runtime, kind, exception => throw exception);
+        var view = new MessageFeedView(new WindowConfirmationService(), runtime, kind, exception => throw exception);
         var window = new Window { Content = view, Width = 760, Height = 300 };
         try
         {

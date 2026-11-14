@@ -1,0 +1,63 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:i18n="using:Yohuke.DanmuPanel.I18n"
+             xmlns:vm="using:Yohuke.DanmuPanel.iPad.ViewModels"
+             xmlns:shared="using:Yohuke.DanmuPanel.ViewModels.Workspace"
+             x:Class="Yohuke.DanmuPanel.iPad.Views.IpadWorkspaceSidebar"
+             x:DataType="vm:IpadWorkspaceSidebarViewModel" x:Name="Root">
+    <Border Classes="ipadWorkbenchPanel ipadSidebar">
+        <Grid RowDefinitions="Auto,*">
+            <Grid ColumnDefinitions="*,Auto,Auto" Margin="10,0,2,0" MinHeight="44">
+                <TextBlock Text="{i18n:Loc Key=iPad.Workspace}" Classes="ipadPanelTitle" />
+                <Button Grid.Column="1" Classes="ipadIconButton" Click="Manage_OnClick"
+                        ToolTip.Tip="{i18n:Loc Key=iPad.RoomsTitle}" AutomationProperties.Name="{i18n:Loc Key=iPad.RoomsTitle}">
+                    <LucideIcon Kind="FolderCog" Size="16" />
+                </Button>
+                <Button Grid.Column="2" Classes="ipadIconButton" Click="Close_OnClick"
+                        ToolTip.Tip="{i18n:Loc Key=iPad.ToggleWorkspace}" AutomationProperties.Name="{i18n:Loc Key=iPad.ToggleWorkspace}">
+                    <LucideIcon Kind="PanelLeftClose" Size="16" />
+                </Button>
+            </Grid>
+            <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Disabled" Margin="6,2,6,6">
+                <ItemsControl ItemsSource="{Binding Workspaces}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate x:DataType="shared:WorkspaceTreeItemViewModel">
+                            <StackPanel Spacing="2" Margin="0,0,0,8">
+                                <Button Classes="ipadWorkspaceRow" Classes.selected="{Binding IsSelected}"
+                                        Command="{Binding #Root.((vm:IpadWorkspaceSidebarViewModel)DataContext).SelectWorkspaceCommand}" CommandParameter="{Binding}">
+                                    <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="7">
+                                        <LucideIcon Kind="FolderOpen" Size="16" />
+                                        <TextBlock Grid.Column="1" Text="{Binding State.Name}" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" />
+                                        <TextBlock Grid.Column="2" Text="{Binding RoomCountText}" Classes="muted" />
+                                    </Grid>
+                                </Button>
+                                <ItemsControl ItemsSource="{Binding Rooms}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate x:DataType="shared:RoomTreeItemViewModel">
+                                            <Button Classes="ipadRoomRow" Classes.selected="{Binding IsSelected}"
+                                                    Command="{Binding #Root.((vm:IpadWorkspaceSidebarViewModel)DataContext).SelectRoomCommand}" CommandParameter="{Binding}">
+                                                <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="7">
+                                                    <Border Width="24" Height="24" CornerRadius="12" ClipToBounds="True" Background="{DynamicResource AppSidebarSelectedBrush}">
+                                                        <Panel>
+                                                            <TextBlock Text="{Binding AvatarPlaceholderText}" IsVisible="{Binding HasNoAvatar}" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="11" />
+                                                            <Image Source="{Binding AvatarImage}" IsVisible="{Binding HasAvatar}" Stretch="UniformToFill" />
+                                                        </Panel>
+                                                    </Border>
+                                                    <StackPanel Grid.Column="1" Spacing="1">
+                                                        <TextBlock Text="{Binding State.Name}" TextTrimming="CharacterEllipsis" />
+                                                        <TextBlock Text="{Binding State.RoomId}" Classes="muted" FontSize="11" />
+                                                    </StackPanel>
+                                                    <Border Grid.Column="2" Classes="ipadListenStatus" Classes.listening="{Binding IsListening}" Classes.idle="{Binding !IsListening}" ToolTip.Tip="{Binding ConnectionStatus}" />
+                                                </Grid>
+                                            </Button>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+        </Grid>
+    </Border>
+</UserControl>

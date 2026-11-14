@@ -1,0 +1,65 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:i18n="using:Yohuke.DanmuPanel.I18n"
+             xmlns:vm="using:Yohuke.DanmuPanel.iPad.ViewModels"
+             xmlns:shared="using:Yohuke.DanmuPanel.ViewModels.Settings"
+             x:Class="Yohuke.DanmuPanel.iPad.Views.IpadAccountsPage"
+             x:DataType="vm:IpadAccountsViewModel">
+    <Grid>
+        <ScrollViewer IsVisible="{Binding !IsBrowserOpen}" HorizontalScrollBarVisibility="Disabled">
+            <StackPanel Spacing="16" MaxWidth="860">
+                <Border Classes="ipadCard">
+                    <StackPanel Spacing="12">
+                        <TextBlock Text="{i18n:Loc Key=iPad.LoginHelp}" Classes="helpText" />
+                        <WrapPanel ItemSpacing="8" LineSpacing="8">
+                            <Button Content="{i18n:Loc Key=iPad.BrowserLogin}" Command="{Binding BrowserLoginCommand}" Classes="primaryButton" />
+                            <Button Content="{i18n:Loc Key=iPad.ManualCookie}" Command="{Binding AddManualCommand}" />
+                        </WrapPanel>
+                    </StackPanel>
+                </Border>
+                <ItemsControl ItemsSource="{Binding Accounts}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate x:DataType="shared:AccountSettingsRowViewModel">
+                            <Border Classes="ipadCard" Margin="0,0,0,12">
+                                <StackPanel Spacing="10">
+                                    <TextBox Text="{Binding Name, Mode=TwoWay}" Watermark="{i18n:Loc Key=iPad.AccountName}" />
+                                    <TextBlock Text="{Binding Profile}" TextWrapping="Wrap" />
+                                    <TextBlock Text="{i18n:Loc Key=iPad.DefaultAccount}" IsVisible="{Binding IsDefault}" Foreground="{DynamicResource AppSuccessBrush}" />
+                                    <WrapPanel ItemSpacing="8" LineSpacing="8">
+                                        <Button Content="{i18n:Loc Key=iPad.Relogin}" Command="{Binding LoginCommand}" />
+                                        <Button Content="{i18n:Loc Key=iPad.SaveValidate}" Command="{Binding ValidateCommand}" />
+                                        <Button Content="{i18n:Loc Key=iPad.SetDefault}" Command="{Binding SetDefaultCommand}" />
+                                        <Button Content="{i18n:Loc Key=iPad.EditCookie}" Command="{Binding EditCookieCommand}" />
+                                        <Button Content="{i18n:Loc Key=Panel.Delete}" Command="{Binding DeleteCommand}" />
+                                    </WrapPanel>
+                                </StackPanel>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+                <Border Classes="ipadCard" IsVisible="{Binding IsManualOpen}">
+                    <StackPanel Spacing="10">
+                        <TextBlock Text="{i18n:Loc Key=iPad.ManualLogin}" Classes="pageTitle" />
+                        <TextBox Text="{Binding ManualName, Mode=TwoWay}" Watermark="{i18n:Loc Key=iPad.OptionalAccountName}" />
+                        <TextBox Text="{Binding ManualCookie, Mode=TwoWay}" PasswordChar="●" Watermark="{i18n:Loc Key=iPad.CookieHint}" MinHeight="88" TextWrapping="Wrap" />
+                        <WrapPanel ItemSpacing="8" LineSpacing="8">
+                            <Button Content="{i18n:Loc Key=iPad.SaveValidate}" Command="{Binding SaveManualCommand}" Classes="primaryButton" />
+                            <Button Content="{i18n:Loc Key=UI.BrowserCookieLoginWindow.Cancel}" Command="{Binding CancelManualCommand}" />
+                        </WrapPanel>
+                    </StackPanel>
+                </Border>
+                <TextBlock Text="{Binding Shell.Error}" Foreground="{DynamicResource AppErrorBrush}" TextWrapping="Wrap" />
+            </StackPanel>
+        </ScrollViewer>
+        <Grid IsVisible="{Binding IsBrowserOpen}" RowDefinitions="Auto,Auto,*" RowSpacing="8">
+            <WrapPanel ItemSpacing="8" LineSpacing="8">
+                <Button Content="{i18n:Loc Key=iPad.CloseBrowser}" Click="CloseBrowser_OnClick" />
+                <Button Content="{i18n:Loc Key=UI.BrowserCookieLoginWindow.Back}" Click="BrowserBack_OnClick" />
+                <Button Content="{i18n:Loc Key=UI.BrowserCookieLoginWindow.Refresh}" Click="BrowserRefresh_OnClick" />
+                <Button Content="{i18n:Loc Key=iPad.SaveLogin}" Click="Capture_OnClick" Classes="primaryButton" IsEnabled="{Binding !Shell.IsBusy}" />
+            </WrapPanel>
+            <TextBlock Grid.Row="1" Text="{Binding BrowserStatus}" TextWrapping="Wrap" />
+            <Border x:Name="BrowserHost" Grid.Row="2" Background="White" />
+        </Grid>
+    </Grid>
+</UserControl>

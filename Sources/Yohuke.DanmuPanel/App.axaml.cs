@@ -1,3 +1,4 @@
+using Yohuke.DanmuPanel.Windowing;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
@@ -76,7 +77,7 @@ public partial class App : Application
                     (WorkbenchPanelIds.RED_POCKET, MessageKind.RedPocket)
                 })
                 {
-                    var view = new MessageFeedView(runtime, kind, ReportFailure, NavigateToMessageAsync);
+                    var view = new MessageFeedView(new WindowConfirmationService(), runtime, kind, ReportFailure, NavigateToMessageAsync);
                     feeds.Add(view);
                     panels.Add(id, view);
                 }

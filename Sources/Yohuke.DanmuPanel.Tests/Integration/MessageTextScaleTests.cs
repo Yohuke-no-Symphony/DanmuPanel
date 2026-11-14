@@ -1,3 +1,4 @@
+using Yohuke.DanmuPanel.Windowing;
 using Avalonia.Controls;
 using Avalonia.Headless;
 using Avalonia.Headless.XUnit;
@@ -50,7 +51,7 @@ public sealed class MessageTextScaleTests
         };
         await runtime.Messages.AppendAsync(message, settings.Reading);
         var errors = new List<Exception>();
-        var view = new MessageFeedView(runtime, kind, errors.Add);
+        var view = new MessageFeedView(new WindowConfirmationService(), runtime, kind, errors.Add);
         var workbenchText = new TextBlock { Text = "工作区标题" };
         var host = new DockPanel { Children = { workbenchText, view } };
         DockPanel.SetDock(workbenchText, Avalonia.Controls.Dock.Top);

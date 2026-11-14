@@ -1,3 +1,4 @@
+using Yohuke.DanmuPanel.Windowing;
 using Avalonia.Controls;
 using Avalonia.Headless.XUnit;
 using Avalonia.Interactivity;
@@ -88,7 +89,7 @@ public sealed class DanmuRegexTranslationViewTests
         await runtime.Messages.AppendAsync(translated, new(), fingerprint);
         await runtime.Messages.AppendAsync(waiting, new(), fingerprint);
         Assert.True(await runtime.Messages.ApplyTranslationAsync(translated.Id, translated.Generation, fingerprint, "Saved translation"));
-        var view = new MessageFeedView(runtime, MessageKind.Danmu, error => throw error);
+        var view = new MessageFeedView(new WindowConfirmationService(), runtime, MessageKind.Danmu, error => throw error);
         var window = new Window { Width = 720, Height = 400, Content = view };
         try
         {
@@ -147,7 +148,7 @@ public sealed class DanmuRegexTranslationViewTests
         var record = new MessageRecord { RoomTabId = "tab", Kind = kind, Content = "歌词♪" };
         await runtime.Messages.AppendAsync(record, new(), fingerprint);
         Assert.True(await runtime.Messages.ApplyTranslationAsync(record.Id, record.Generation, fingerprint, "Saved translation"));
-        var view = new MessageFeedView(runtime, kind, error => throw error);
+        var view = new MessageFeedView(new WindowConfirmationService(), runtime, kind, error => throw error);
         var window = new Window { Width = 720, Height = 400, Content = view };
         ContextMenu? menu = null;
         try

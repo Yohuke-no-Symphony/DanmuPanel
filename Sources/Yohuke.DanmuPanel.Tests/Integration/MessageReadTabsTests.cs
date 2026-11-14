@@ -1,3 +1,4 @@
+using Yohuke.DanmuPanel.Windowing;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
@@ -33,7 +34,7 @@ public sealed class MessageReadTabsTests
         await using var runtime = CreateRuntime(directory);
         await runtime.Messages.AppendBatchAsync([Message(kind, 0), Message(kind, 1)], new());
         await runtime.Messages.MarkReadAsync("message-0", 1, 30);
-        var view = new MessageFeedView(runtime, kind, exception => Assert.Fail(exception.ToString()));
+        var view = new MessageFeedView(new WindowConfirmationService(), runtime, kind, exception => Assert.Fail(exception.ToString()));
         try
         {
             await view.Model.SelectRoomAsync(new() { Id = "tab" });
@@ -63,7 +64,7 @@ public sealed class MessageReadTabsTests
         await runtime.Messages.AppendBatchAsync([Message(kind, 0), Message(kind, 1)], new());
         await runtime.Messages.MarkReadAsync("message-0", 1, 30);
         var errors = new List<Exception>();
-        var view = new MessageFeedView(runtime, kind, errors.Add);
+        var view = new MessageFeedView(new WindowConfirmationService(), runtime, kind, errors.Add);
         var shell = await CreateShellAsync(directory, view, panelId);
         try
         {
@@ -118,7 +119,7 @@ public sealed class MessageReadTabsTests
     {
         using var directory = new MessageStoreTestDirectory();
         await using var runtime = CreateRuntime(directory);
-        var view = new MessageFeedView(runtime, MessageKind.Danmu, exception => Assert.Fail(exception.ToString()));
+        var view = new MessageFeedView(new WindowConfirmationService(), runtime, MessageKind.Danmu, exception => Assert.Fail(exception.ToString()));
         var shell = await CreateShellAsync(directory, view, WorkbenchPanelIds.DANMU);
         try
         {
@@ -155,7 +156,7 @@ public sealed class MessageReadTabsTests
         runtime.Configuration.Settings.CompactDanmuDisplay = compact;
         await runtime.Messages.AppendAsync(Message(kind, 0), new());
         var errors = new List<Exception>();
-        var view = new MessageFeedView(runtime, kind, errors.Add);
+        var view = new MessageFeedView(new WindowConfirmationService(), runtime, kind, errors.Add);
         var window = new Window { Width = 500, Height = 360, Content = view };
         try
         {
@@ -212,7 +213,7 @@ public sealed class MessageReadTabsTests
     {
         using var directory = new MessageStoreTestDirectory();
         await using var runtime = CreateRuntime(directory);
-        var view = new MessageFeedView(runtime, MessageKind.SuperChat, exception => Assert.Fail(exception.ToString()));
+        var view = new MessageFeedView(new WindowConfirmationService(), runtime, MessageKind.SuperChat, exception => Assert.Fail(exception.ToString()));
         var language = Localization.SelectedLanguageID;
         var tabs = Assert.IsType<TabStrip>(view.HeaderTabsTemplate!.Build(view));
         try

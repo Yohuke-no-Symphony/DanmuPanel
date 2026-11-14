@@ -1,3 +1,4 @@
+using Yohuke.DanmuPanel.Windowing;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Headless;
@@ -43,7 +44,7 @@ public sealed class SuperChatColorRenderingTests
                 Kind = MessageKind.SuperChat, UserName = "测试观众", Content = $"SC 金额档位：￥{price}", UnitPrice = price
             });
         }
-        var view = new MessageFeedView(runtime, MessageKind.SuperChat, exception => throw exception);
+        var view = new MessageFeedView(new WindowConfirmationService(), runtime, MessageKind.SuperChat, exception => throw exception);
         var window = new Window { Width = 760, Height = 820, Content = view };
         var originalTheme = Application.Current!.RequestedThemeVariant;
         try

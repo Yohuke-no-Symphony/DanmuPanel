@@ -1,3 +1,4 @@
+using Yohuke.DanmuPanel.Windowing;
 using System.Diagnostics;
 using System.Text.Json;
 using Avalonia;
@@ -56,7 +57,7 @@ public sealed class TranslationColumnResizePerformanceTests(ITestOutputHelper ou
             pinned ??= record;
         }
         await runtime.Messages.TogglePinAsync(pinned!.Id);
-        var view = new MessageFeedView(runtime, MessageKind.Danmu, exception => throw exception);
+        var view = new MessageFeedView(new WindowConfirmationService(), runtime, MessageKind.Danmu, exception => throw exception);
         var window = new Window { Width = 900, Height = 600, Content = view };
         try
         {

@@ -1,3 +1,4 @@
+using Yohuke.DanmuPanel.Windowing;
 using System.Diagnostics;
 using System.Security.Cryptography;
 using System.Text;
@@ -58,7 +59,7 @@ public sealed class HistoryViewportStabilityTests(ITestOutputHelper output)
         var room = new RoomTabState { Id = "tab", RoomId = "123" };
         Assert.False(runtime.IsListening(room));
         var errors = new List<Exception>();
-        var view = new MessageFeedView(runtime, MessageKind.Danmu, errors.Add);
+        var view = new MessageFeedView(new WindowConfirmationService(), runtime, MessageKind.Danmu, errors.Add);
         var window = new Window { Width = compact ? 380 : 420, Height = 520, Content = view };
         ScrollViewer? viewer = null;
         ListBox? list = null;

@@ -1,0 +1,15 @@
+global using System;
+global using System.Collections.Generic;
+global using System.Linq;
+global using System.IO;
+global using System.Net.Http;
+global using System.Threading;
+global using System.Threading.Tasks;
+global using Yohuke.DanmuCore.Apis;
+global using Yohuke.DanmuCore.Apis.Models.Bilibili;
+global using Yohuke.DanmuCore.Apis.Models.Common;
+global using Yohuke.DanmuCore.Models.Accounts;
+global using Yohuke.DanmuCore.Models.Search;
+global using Yohuke.DanmuCore.Services;
+global using Yohuke.DanmuCore.Errors;
+global using Yohuke.DanmuCore.Diagnostics;

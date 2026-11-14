@@ -1,3 +1,4 @@
+using Yohuke.DanmuPanel.Windowing;
 using Avalonia.Controls;
 using Avalonia.Controls.Documents;
 using Avalonia.Headless.XUnit;
@@ -48,7 +49,7 @@ public sealed class EmoticonBitmapReuseTests
         await runtime.Messages.AppendTestMessagesAsync(records, configuration.Settings.Reading);
         await runtime.Messages.TogglePinAsync(records[0].Id);
         var errors = new List<Exception>();
-        var view = new MessageFeedView(runtime, MessageKind.Danmu, errors.Add);
+        var view = new MessageFeedView(new WindowConfirmationService(), runtime, MessageKind.Danmu, errors.Add);
         var host = new Border { Child = view };
         var window = new Window { Width = 600, Height = 500, Content = host };
         try

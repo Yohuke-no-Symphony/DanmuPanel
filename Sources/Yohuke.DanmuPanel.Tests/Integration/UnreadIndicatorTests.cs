@@ -1,3 +1,4 @@
+using Yohuke.DanmuPanel.Windowing;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Headless.XUnit;
@@ -33,7 +34,7 @@ public sealed class UnreadIndicatorTests
         var message = Message(MessageKind.Danmu) with { MedalName = "粉丝牌", MedalLevel = 10 };
         await runtime.Messages.AppendAsync(message, new());
         var errors = new List<Exception>();
-        var view = new MessageFeedView(runtime, MessageKind.Danmu, errors.Add);
+        var view = new MessageFeedView(new WindowConfirmationService(), runtime, MessageKind.Danmu, errors.Add);
         var window = new Window { Width = 480, Height = 360, Content = view };
         try
         {
@@ -98,7 +99,7 @@ public sealed class UnreadIndicatorTests
         var message = Message(kind);
         await runtime.Messages.AppendAsync(message, new());
         var errors = new List<Exception>();
-        var view = new MessageFeedView(runtime, kind, errors.Add);
+        var view = new MessageFeedView(new WindowConfirmationService(), runtime, kind, errors.Add);
         var window = new Window { Width = 480, Height = 360, Content = view };
         try
         {
@@ -162,7 +163,7 @@ public sealed class UnreadIndicatorTests
             await runtime.Messages.AppendAsync(hiddenGift, options);
         }
         var errors = new List<Exception>();
-        var view = new MessageFeedView(runtime, kind, errors.Add);
+        var view = new MessageFeedView(new WindowConfirmationService(), runtime, kind, errors.Add);
         var panels = WorkbenchPanelIds.All.ToDictionary(id => id, id => (Control)new TextBlock { Text = id });
         panels[panelId] = view;
         var shell = new ShellWindow(panels, new TextBlock(), directory.Path);
@@ -267,7 +268,7 @@ public sealed class UnreadIndicatorTests
         await using var runtime = CreateRuntime(directory);
         await runtime.Messages.AppendAsync(Message(kind), new());
         var errors = new List<Exception>();
-        var view = new MessageFeedView(runtime, kind, errors.Add);
+        var view = new MessageFeedView(new WindowConfirmationService(), runtime, kind, errors.Add);
         var panels = WorkbenchPanelIds.All.ToDictionary(id => id, id => (Control)new TextBlock { Text = id });
         panels[panelId] = view;
         await new WorkspaceLayoutStore(directory.Path).SaveAsync(new()

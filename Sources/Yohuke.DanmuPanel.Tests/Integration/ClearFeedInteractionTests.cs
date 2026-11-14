@@ -1,3 +1,4 @@
+using Yohuke.DanmuPanel.Windowing;
 using Avalonia.Controls;
 using Avalonia.Headless.XUnit;
 using Avalonia.Threading;
@@ -38,7 +39,7 @@ public sealed class ClearFeedInteractionTests
         }
         await runtime.Messages.AppendAsync(Message(kind) with { RoomTabId = "second" }, new());
         var errors = new List<Exception>();
-        var view = new MessageFeedView(runtime, kind, errors.Add);
+        var view = new MessageFeedView(new WindowConfirmationService(), runtime, kind, errors.Add);
         var panels = WorkbenchPanelIds.All.ToDictionary(id => id, id => (Control)new TextBlock { Text = id });
         panels[panelId] = view;
         var shell = new ShellWindow(panels, new TextBlock(), directory.Path);
@@ -116,7 +117,7 @@ public sealed class ClearFeedInteractionTests
         var second = Message(MessageKind.Danmu) with { RoomTabId = "second" };
         await runtime.Messages.AppendAsync(second, new());
         var errors = new List<Exception>();
-        var view = new MessageFeedView(runtime, MessageKind.Danmu, errors.Add);
+        var view = new MessageFeedView(new WindowConfirmationService(), runtime, MessageKind.Danmu, errors.Add);
         var actions = view.HeaderActionsTemplate.Build(view);
         var window = new Window { Content = new StackPanel { Children = { actions!, view } } };
         try

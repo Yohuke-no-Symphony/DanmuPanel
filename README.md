@@ -41,6 +41,33 @@ Run tests for the module you change, for example the shell window:
 dotnet test Sources/Yohuke.DanmuPanel.Tests/Yohuke.DanmuPanel.Tests.csproj --filter FullyQualifiedName~Windowing.ShellWindowTests
 ```
 
+## Project structure and iPad development
+
+- `Sources/Yohuke.DanmuPanel.Shared`: cross-platform Avalonia services, view models, localization, and message components.
+- `Sources/Yohuke.DanmuPanel`: desktop entry point, windows, Dock layouts, and desktop settings pages.
+- `Sources/Yohuke.DanmuPanel.iPad`: independent iPad pages, navigation, touch layouts, and platform contracts.
+- `Sources/Yohuke.DanmuPanel.iOS`: iOS startup, UIScene lifecycle, signing, and foreground display control.
+
+Use `Sources/Yohuke.DanmuPanel.sln` for desktop development and `Sources/Yohuke.DanmuPanel.iPad.sln` for iPad. Desktop builds do not require the iOS workload.
+
+The iOS project's `global.json` pins the matching SDK/workload set: .NET 10.0.404, iOS workload 27.2.10000, and Xcode 27.2. On a Mac with the matching SDK installed:
+
+```sh
+cd Sources/Yohuke.DanmuPanel.iOS
+dotnet workload restore
+dotnet build -c Release -r ios-arm64 \
+  -p:CodesignKey="Apple Development: YOUR_IDENTITY" \
+  -p:CodesignProvision="YOUR_DEVELOPMENT_PROFILE"
+```
+
+Pair the device, enable Developer Mode, and use a development provisioning profile containing that device. Supply signing credentials as local build arguments; they are not stored in the repository. Personal Team installations expire with their Apple provisioning profile and must then be signed and installed again.
+
+Run the iPad UI tests without the iOS workload:
+
+```sh
+dotnet test Sources/Yohuke.DanmuPanel.iPad.Tests/Yohuke.DanmuPanel.iPad.Tests.csproj
+```
+
 ## Credits
 
 The character in the icon was illustrated by @hshjbbnd. The character is [椎名菜羽](https://space.bilibili.com/623441612).

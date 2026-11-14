@@ -1,0 +1,24 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Styles.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceInclude Source="avares://Yohuke.DanmuPanel.Shared/Views/Styles/PanelResources.axaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Styles.Resources>
+
+    <Style Selector="Button:not(.messageHeaderButton), ToggleButton.actionToggle">
+        <Setter Property="FontSize" Value="{DynamicResource AppFontSizeBody}" />
+        <Setter Property="FontWeight" Value="Regular" />
+        <Setter Property="CornerRadius" Value="{StaticResource WorkbenchControlCornerRadius}" />
+        <Setter Property="Padding" Value="{StaticResource WorkbenchButtonPadding}" />
+        <Setter Property="MinHeight" Value="{StaticResource WorkbenchControlHeight}" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+    </Style>
+
+    <StyleInclude Source="avares://Yohuke.DanmuPanel.Shared/Views/Styles/BaseControlStyles.axaml" />
+
+    <StyleInclude Source="avares://Yohuke.DanmuPanel.Shared/Views/Styles/MessageStyles.axaml" />
+</Styles>

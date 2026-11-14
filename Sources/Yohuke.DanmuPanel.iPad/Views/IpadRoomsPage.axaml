@@ -1,0 +1,83 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:i18n="using:Yohuke.DanmuPanel.I18n"
+             xmlns:vm="using:Yohuke.DanmuPanel.iPad.ViewModels"
+             xmlns:state="using:Yohuke.DanmuPanel.Models.State"
+             xmlns:shared="using:Yohuke.DanmuPanel.ViewModels.Workspace"
+             x:Class="Yohuke.DanmuPanel.iPad.Views.IpadRoomsPage"
+             x:DataType="vm:IpadRoomsViewModel">
+    <ScrollViewer HorizontalScrollBarVisibility="Disabled">
+        <StackPanel Spacing="16" MaxWidth="860" HorizontalAlignment="Stretch">
+            <Border Classes="ipadCard">
+                <StackPanel Spacing="10">
+                    <TextBlock Text="{i18n:Loc Key=Workbench.Panel.Workspace}" Classes="pageTitle" />
+                    <ComboBox ItemsSource="{Binding Shell.Workspaces}" SelectedItem="{Binding Shell.SelectedWorkspace, Mode=TwoWay}" HorizontalAlignment="Stretch">
+                        <ComboBox.ItemTemplate><DataTemplate x:DataType="state:WorkspaceState"><TextBlock Text="{Binding Name}" /></DataTemplate></ComboBox.ItemTemplate>
+                    </ComboBox>
+                    <TextBox Text="{Binding WorkspaceName, Mode=TwoWay}" Watermark="{i18n:Loc Key=iPad.WorkspaceName}" />
+                    <WrapPanel ItemSpacing="8" LineSpacing="8">
+                        <Button Content="{i18n:Loc Key=iPad.AddWorkspace}" Command="{Binding AddWorkspaceCommand}" />
+                        <Button Content="{i18n:Loc Key=iPad.SaveName}" Command="{Binding RenameWorkspaceCommand}" />
+                        <Button Content="{i18n:Loc Key=iPad.DeleteWorkspace}" Command="{Binding DeleteWorkspaceCommand}" />
+                    </WrapPanel>
+                </StackPanel>
+            </Border>
+            <Border Classes="ipadCard">
+                <StackPanel Spacing="10">
+                    <TextBlock Text="{i18n:Loc Key=Workspace.Rooms}" Classes="pageTitle" />
+                    <ListBox ItemsSource="{Binding WorkspaceRooms}" SelectedItem="{Binding SelectedRoom, Mode=TwoWay}" MinHeight="80" MaxHeight="260">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate x:DataType="state:RoomTabState">
+                                <Grid MinHeight="48" ColumnDefinitions="*,Auto" ColumnSpacing="12">
+                                    <TextBlock Text="{Binding Name}" />
+                                    <TextBlock Grid.Column="1" Text="{Binding RoomId}" Classes="helpText" />
+                                </Grid>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                    <WrapPanel ItemSpacing="8" LineSpacing="8">
+                        <Button Content="{i18n:Loc Key=iPad.AddRoom}" Command="{Binding AddRoomCommand}" Classes="primaryButton" />
+                        <Button Content="{i18n:Loc Key=iPad.EditRoom}" Command="{Binding EditRoomCommand}" />
+                        <Button Content="{i18n:Loc Key=iPad.DeleteRoom}" Command="{Binding DeleteRoomCommand}" />
+                    </WrapPanel>
+                </StackPanel>
+            </Border>
+            <Border Classes="ipadCard" IsVisible="{Binding IsEditing}">
+                <StackPanel DataContext="{Binding Editor}" x:DataType="shared:RoomEditorViewModel" Spacing="10">
+                    <TextBlock Text="{Binding AddDialogTitle}" Classes="pageTitle" />
+                    <TextBlock Text="{i18n:Loc Key=Panel.RoomId}" Classes="fieldLabel" />
+                    <TextBox Text="{Binding NewRoomId, Mode=TwoWay}" IsEnabled="{Binding !IsExisting}" Watermark="{i18n:Loc Key=iPad.RoomIdHint}" />
+                    <TextBlock Text="{i18n:Loc Key=iPad.DisplayName}" Classes="fieldLabel" />
+                    <TextBox Text="{Binding NewRoomName, Mode=TwoWay}" Watermark="{i18n:Loc Key=iPad.RoomNameHint}" />
+                    <TextBlock Text="{i18n:Loc Key=Workspace.OwnerUid}" Classes="fieldLabel" />
+                    <TextBox Text="{Binding NewRoomOwnerUid, Mode=TwoWay}" />
+                    <ComboBox ItemsSource="{Binding AccountChoices}" SelectedItem="{Binding SelectedAccount, Mode=TwoWay}" HorizontalAlignment="Stretch">
+                        <ComboBox.ItemTemplate><DataTemplate x:DataType="state:AccountChoice"><TextBlock Text="{Binding Name}" /></DataTemplate></ComboBox.ItemTemplate>
+                    </ComboBox>
+                    <WrapPanel ItemSpacing="8" LineSpacing="8">
+                        <Button Content="{i18n:Loc Key=iPad.SaveRoom}" Command="{Binding ConfirmCommand}" Classes="primaryButton" />
+                        <Button Content="{i18n:Loc Key=iPad.CancelEdit}" Command="{Binding CancelCommand}" />
+                    </WrapPanel>
+                    <Separator />
+                    <TextBlock Text="{i18n:Loc Key=iPad.SearchRoomHelp}" Classes="helpText" />
+                    <Grid ColumnDefinitions="*,Auto" ColumnSpacing="8">
+                        <TextBox Text="{Binding LiveRoomSearchText, Mode=TwoWay}" Watermark="{i18n:Loc Key=iPad.SearchRoom}" />
+                        <Button Grid.Column="1" Content="{i18n:Loc Key=iPad.Search}" Command="{Binding SearchLiveRoomsCommand}" />
+                    </Grid>
+                    <TextBlock Text="{Binding LiveRoomSearchStatus}" TextWrapping="Wrap" Foreground="{DynamicResource AppWarningBrush}" />
+                    <ItemsControl ItemsSource="{Binding LiveRoomSearchResults}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate x:DataType="shared:LiveRoomSearchResultViewModel">
+                                <Button Tag="{Binding}" Click="SearchResult_OnClick" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" Margin="0,3">
+                                    <StackPanel Spacing="4"><TextBlock Text="{Binding OwnerName}" /><TextBlock Text="{Binding DetailLine}" Classes="helpText" FontSize="13" /></StackPanel>
+                                </Button>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                    <Button Content="{i18n:Loc Key=Workspace.LoadMore}" Command="{Binding LoadMoreLiveRoomsCommand}" IsVisible="{Binding HasMoreLiveRoomSearchResults}" />
+                </StackPanel>
+            </Border>
+            <TextBlock Text="{Binding Shell.Error}" Foreground="{DynamicResource AppErrorBrush}" TextWrapping="Wrap" />
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

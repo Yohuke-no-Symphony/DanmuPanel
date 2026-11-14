@@ -1,3 +1,4 @@
+using Yohuke.DanmuPanel.Windowing;
 using System.Collections.Specialized;
 using Avalonia.Controls;
 using Avalonia.Controls.Presenters;
@@ -28,7 +29,7 @@ public sealed class FeedViewportLifecycleTests
         await using var runtime = new PanelRuntime(new(directory.Path), Configuration(), pinyin);
         await runtime.TestMessages.AddAsync(Room(), new() { UserName = "viewer", Content = "你好历史", Count = 120 });
         var errors = new List<Exception>();
-        var view = new MessageFeedView(runtime, MessageKind.Danmu, errors.Add);
+        var view = new MessageFeedView(new WindowConfirmationService(), runtime, MessageKind.Danmu, errors.Add);
         var window = new Window { Width = 600, Height = 320, Content = view };
         var starts = 0;
         var completions = 0;

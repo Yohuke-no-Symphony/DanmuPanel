@@ -12,6 +12,7 @@ using Yohuke.DanmuPanel.Services;
 using Yohuke.DanmuPanel.Services.Appearance;
 using Yohuke.DanmuPanel.Services.Messages;
 using Yohuke.DanmuPanel.Services.Settings;
+using Yohuke.DanmuPanel.Services.Updates;
 using Yohuke.DanmuPanel.ViewModels.Settings;
 
 namespace Yohuke.DanmuPanel.Views.Settings;
@@ -64,7 +65,7 @@ public sealed class SettingsView : UserControl
         this.directoryLauncher = directoryLauncher;
         var cacheSize = new CacheSizeService(new(runtime.ConfigurationStore.DirectoryPath));
         var settings = runtime.Configuration.Settings;
-        Model = new(settings, supportsNativeMenus, async () =>
+        Model = new(settings, AppUpdateVersion.Current, supportsNativeMenus, async () =>
             {
                 await SaveAsync();
             },
@@ -395,16 +396,16 @@ public sealed class SettingsView : UserControl
         var settings = runtime.Configuration.Settings;
         var appearance = Model.Appearance;
         if (args.PropertyName == nameof(SettingsAppearanceViewModel.LanguageIndex) &&
-            appearance.LanguageIndex >= 0 && appearance.LanguageIndex < SettingsAppearanceViewModel.languageIds.Length)
+            appearance.LanguageIndex >= 0 && appearance.LanguageIndex < SettingsAppearanceViewModel.LanguageIds.Length)
         {
-            settings.Language = SettingsAppearanceViewModel.languageIds[appearance.LanguageIndex];
+            settings.Language = SettingsAppearanceViewModel.LanguageIds[appearance.LanguageIndex];
             Localization.SetLanguage(settings.Language);
         }
         else if (args.PropertyName == nameof(SettingsAppearanceViewModel.ThemeIndex) &&
-            appearance.ThemeIndex >= 0 && appearance.ThemeIndex < SettingsAppearanceViewModel.themeIds.Length &&
-            settings.Theme != SettingsAppearanceViewModel.themeIds[appearance.ThemeIndex])
+            appearance.ThemeIndex >= 0 && appearance.ThemeIndex < SettingsAppearanceViewModel.ThemeIds.Length &&
+            settings.Theme != SettingsAppearanceViewModel.ThemeIds[appearance.ThemeIndex])
         {
-            settings.Theme = SettingsAppearanceViewModel.themeIds[appearance.ThemeIndex];
+            settings.Theme = SettingsAppearanceViewModel.ThemeIds[appearance.ThemeIndex];
             settings.ColorScheme.SelectedSchemeId = null;
             ApplyAppearance();
         }
@@ -428,7 +429,7 @@ public sealed class SettingsView : UserControl
         };
         runtime.Colors.Apply(application, settings.ColorScheme);
         colorSchemeEditor.RefreshDefaults();
-        Model.Appearance.ThemeIndex = Math.Max(0, Array.IndexOf(SettingsAppearanceViewModel.themeIds, settings.Theme));
+        Model.Appearance.ThemeIndex = Math.Max(0, SettingsAppearanceViewModel.ThemeIds.IndexOf(settings.Theme));
         runtime.NotifyAppearanceChanged();
     }
 

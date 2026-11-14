@@ -1,0 +1,37 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>net10.0-ios</TargetFramework>
+        <SupportedOSPlatformVersion>15.0</SupportedOSPlatformVersion>
+        <RuntimeIdentifier Condition="'$(RuntimeIdentifier)' == ''">ios-arm64</RuntimeIdentifier>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
+        <IsPackable>false</IsPackable>
+        <ApplicationId>net.yohuke.danmupanel.ipad</ApplicationId>
+        <ApplicationTitle>Danmu Panel</ApplicationTitle>
+        <ApplicationDisplayVersion>0.0.1</ApplicationDisplayVersion>
+        <ApplicationVersion>1</ApplicationVersion>
+        <AssemblyVersion>0.0.1</AssemblyVersion>
+        <RootNamespace>Yohuke.DanmuPanel.iOS</RootNamespace>
+        <AppIcon>AppIcon</AppIcon>
+        <TrimMode>partial</TrimMode>
+        <UseInterpreter Condition="'$(Configuration)' == 'Debug'">true</UseInterpreter>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Avalonia.iOS" Version="11.3.13" />
+        <PackageReference Include="Avalonia.Fonts.Inter" Version="11.3.13" />
+        <ProjectReference Include="../Yohuke.DanmuPanel.iPad/Yohuke.DanmuPanel.iPad.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <BundleResource Include="../Yohuke.DanmuPanel.Shared/I18n/Languages/*.json">
+            <LogicalName>i18n/%(Filename)%(Extension)</LogicalName>
+        </BundleResource>
+        <BundleResource Include="../../LICENSE" LogicalName="LICENSE.txt" />
+        <BundleResource Include="../Yohuke.DanmuPanel.Shared/ThirdParty/**/*">
+            <LogicalName>ThirdParty/%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
+        </BundleResource>
+    </ItemGroup>
+</Project>

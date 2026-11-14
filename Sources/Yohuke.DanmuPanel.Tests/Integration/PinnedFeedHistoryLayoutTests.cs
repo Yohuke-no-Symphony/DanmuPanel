@@ -1,3 +1,4 @@
+using Yohuke.DanmuPanel.Windowing;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Presenters;
@@ -65,7 +66,7 @@ public sealed class PinnedFeedHistoryLayoutTests(ITestOutputHelper output)
             }, settings.Reading);
         }
         var errors = new List<Exception>();
-        var view = new MessageFeedView(runtime, MessageKind.Danmu, errors.Add);
+        var view = new MessageFeedView(new WindowConfirmationService(), runtime, MessageKind.Danmu, errors.Add);
         var window = new Window { Width = 450, Height = 350, Content = view };
         try
         {

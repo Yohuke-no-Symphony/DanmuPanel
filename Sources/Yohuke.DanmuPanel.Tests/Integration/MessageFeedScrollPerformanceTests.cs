@@ -1,3 +1,4 @@
+using Yohuke.DanmuPanel.Windowing;
 using System.Diagnostics;
 using System.Text.Json;
 using Avalonia;
@@ -76,7 +77,7 @@ public sealed class MessageFeedScrollPerformanceTests(ITestOutputHelper output)
             await runtime.Messages.TogglePinAsync(records[index].Id);
         }
         var errors = new List<Exception>();
-        var view = new MessageFeedView(runtime, MessageKind.Danmu, errors.Add);
+        var view = new MessageFeedView(new WindowConfirmationService(), runtime, MessageKind.Danmu, errors.Add);
         var window = new Window { Width = 600, Height = 500, Content = view };
         var rows = new HashSet<MessageFeedRow>();
         var texts = new HashSet<EmoticonTextBlock>();

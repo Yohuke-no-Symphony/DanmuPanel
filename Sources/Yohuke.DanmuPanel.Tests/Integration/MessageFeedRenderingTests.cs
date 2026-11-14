@@ -1,3 +1,4 @@
+using Yohuke.DanmuPanel.Windowing;
 using System.Diagnostics;
 using Avalonia.Controls;
 using Avalonia.Controls.Presenters;
@@ -39,7 +40,7 @@ public sealed class MessageFeedRenderingTests(ITestOutputHelper output)
             Kind = kind, UserName = "viewer", Content = "message", GiftName = "gift", Count = 100, UnitPrice = 100
         });
         var errors = new List<Exception>();
-        var view = new MessageFeedView(runtime, kind, errors.Add);
+        var view = new MessageFeedView(new WindowConfirmationService(), runtime, kind, errors.Add);
         var window = new Window { Width = 650, Height = 350, Content = view };
         try
         {
@@ -131,7 +132,7 @@ public sealed class MessageFeedRenderingTests(ITestOutputHelper output)
             Kind = MessageKind.Danmu, UserName = "viewer", Content = "message", Count = 100
         });
         var errors = new List<Exception>();
-        var view = new MessageFeedView(runtime, MessageKind.Danmu, errors.Add);
+        var view = new MessageFeedView(new WindowConfirmationService(), runtime, MessageKind.Danmu, errors.Add);
         var window = new Window { Width = 650, Height = 350, Content = view };
         try
         {
@@ -176,7 +177,7 @@ public sealed class MessageFeedRenderingTests(ITestOutputHelper output)
             Kind = MessageKind.Danmu, UserName = "viewer", Content = "message", Count = 100
         });
         var errors = new List<Exception>();
-        var view = new MessageFeedView(runtime, MessageKind.Danmu, errors.Add);
+        var view = new MessageFeedView(new WindowConfirmationService(), runtime, MessageKind.Danmu, errors.Add);
         var window = new Window { Width = 650, Height = 350, Content = view };
         try
         {

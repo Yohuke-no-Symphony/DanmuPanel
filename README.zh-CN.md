@@ -41,6 +41,33 @@ dotnet run --project Sources/Yohuke.DanmuPanel/Yohuke.DanmuPanel.csproj
 dotnet test Sources/Yohuke.DanmuPanel.Tests/Yohuke.DanmuPanel.Tests.csproj --filter FullyQualifiedName~Windowing.ShellWindowTests
 ```
 
+## 工程结构与 iPad 开发
+
+- `Sources/Yohuke.DanmuPanel.Shared`：跨平台 Avalonia 组件库，包含业务服务、ViewModel、本地化和基础消息控件。
+- `Sources/Yohuke.DanmuPanel`：桌面入口、窗口、Dock 布局与桌面设置页面。
+- `Sources/Yohuke.DanmuPanel.iPad`：独立 iPad 页面、导航、触控布局和平台能力接口。
+- `Sources/Yohuke.DanmuPanel.iOS`：iOS 启动、UIScene 生命周期、设备签名与前台常亮控制。
+
+桌面使用原有 `Sources/Yohuke.DanmuPanel.sln`；iPad 使用独立的 `Sources/Yohuke.DanmuPanel.iPad.sln`。桌面构建不要求安装 iOS workload。
+
+iOS 工程目录的 `global.json` 固定配套的 .NET SDK/workload set；当前为 .NET 10.0.404、iOS workload 27.2.10000 与 Xcode 27.2。在安装对应 SDK 的 Mac 上进入 iOS 工程目录，再恢复 workload 和构建：
+
+```sh
+cd Sources/Yohuke.DanmuPanel.iOS
+dotnet workload restore
+dotnet build -c Release -r ios-arm64 \
+  -p:CodesignKey="Apple Development: YOUR_IDENTITY" \
+  -p:CodesignProvision="YOUR_DEVELOPMENT_PROFILE"
+```
+
+真机需配对、开启开发者模式，并使用包含目标设备的开发描述文件。签名身份和描述文件通过本机构建参数提供，不写入仓库。个人团队开发签名的安装有效期由 Apple 描述文件决定，到期后需要重新签名安装。
+
+iPad 界面测试不需要 iOS workload：
+
+```sh
+dotnet test Sources/Yohuke.DanmuPanel.iPad.Tests/Yohuke.DanmuPanel.iPad.Tests.csproj
+```
+
 ## 鸣谢
 
 图标上的角色由 @hshjbbnd 绘制，形象来源为[椎名菜羽](https://space.bilibili.com/623441612)。

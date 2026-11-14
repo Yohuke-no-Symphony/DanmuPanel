@@ -1,3 +1,4 @@
+using Yohuke.DanmuPanel.Windowing;
 using System.Collections.Specialized;
 using Avalonia;
 using Avalonia.Controls;
@@ -117,7 +118,7 @@ public sealed class AsyncHistoryLoadingTests
         await using var runtime = new PanelRuntime(new(directory.Path), configuration, pinyin);
         await runtime.TestMessages.AddAsync(Room(), new() { UserName = "历史观众", Content = "重庆银行今天营业" });
         var errors = new List<Exception>();
-        var view = new MessageFeedView(runtime, MessageKind.Danmu, errors.Add);
+        var view = new MessageFeedView(new WindowConfirmationService(), runtime, MessageKind.Danmu, errors.Add);
         var window = new Window { Width = 650, Height = 380, Content = view };
         try
         {
@@ -243,7 +244,7 @@ public sealed class AsyncHistoryLoadingTests
         await using var runtime = new PanelRuntime(new(directory.Path), Configuration(), pinyin);
         await runtime.TestMessages.AddAsync(Room(), new() { UserName = "viewer", Content = "你好世界", Count = 250 });
         var errors = new List<Exception>();
-        var view = new MessageFeedView(runtime, MessageKind.Danmu, errors.Add);
+        var view = new MessageFeedView(new WindowConfirmationService(), runtime, MessageKind.Danmu, errors.Add);
         var window = new Window { Width = 650, Height = 450, Content = view };
         try
         {
@@ -392,7 +393,7 @@ public sealed class AsyncHistoryLoadingTests
         }).ToArray();
         await runtime.Messages.AppendTestMessagesAsync(records, configuration.Settings.Reading);
         var errors = new List<Exception>();
-        var view = new MessageFeedView(runtime, MessageKind.Danmu, errors.Add);
+        var view = new MessageFeedView(new WindowConfirmationService(), runtime, MessageKind.Danmu, errors.Add);
         var window = new Window { Width = 600, Height = 420, Content = view };
         try
         {
@@ -463,7 +464,7 @@ public sealed class AsyncHistoryLoadingTests
             Kind = kind, UserName = "viewer", Content = "initial history", GiftName = "鲜花", UnitPrice = 30, Count = 100
         });
         var errors = new List<Exception>();
-        var view = new MessageFeedView(runtime, kind, errors.Add);
+        var view = new MessageFeedView(new WindowConfirmationService(), runtime, kind, errors.Add);
         var window = new Window { Width = 600, Height = 360, Content = view };
         var appliedMessages = 0;
         var inputHandled = false;
@@ -538,7 +539,7 @@ public sealed class AsyncHistoryLoadingTests
             Kind = kind, UserName = "历史观众", Content = "首屏历史内容", GiftName = "鲜花", UnitPrice = 30, Count = 100
         });
         var errors = new List<Exception>();
-        var view = new MessageFeedView(runtime, kind, errors.Add);
+        var view = new MessageFeedView(new WindowConfirmationService(), runtime, kind, errors.Add);
         var window = new Window { Width = 600, Height = 360, Content = view };
         try
         {
@@ -594,7 +595,7 @@ public sealed class AsyncHistoryLoadingTests
         }).ToArray();
         await runtime.Messages.AppendTestMessagesAsync(messages, configuration.Settings.Reading);
         var errors = new List<Exception>();
-        var view = new MessageFeedView(runtime, MessageKind.Danmu, errors.Add);
+        var view = new MessageFeedView(new WindowConfirmationService(), runtime, MessageKind.Danmu, errors.Add);
         var window = new Window { Width = 440, Height = 380, Content = view };
         using var external = new SqliteConnection(new SqliteConnectionStringBuilder
         {

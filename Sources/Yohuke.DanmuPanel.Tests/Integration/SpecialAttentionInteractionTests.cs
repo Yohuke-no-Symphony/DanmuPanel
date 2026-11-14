@@ -1,3 +1,4 @@
+using Yohuke.DanmuPanel.Windowing;
 using Avalonia.Controls;
 using Avalonia.Headless.XUnit;
 using Avalonia.Interactivity;
@@ -33,8 +34,8 @@ public sealed class SpecialAttentionInteractionTests
             await runtime.Messages.AppendAsync(message, new());
         }
         var errors = new List<Exception>();
-        var firstView = new MessageFeedView(runtime, MessageKind.Danmu, errors.Add);
-        var secondView = new MessageFeedView(runtime, MessageKind.Danmu, errors.Add);
+        var firstView = new MessageFeedView(new WindowConfirmationService(), runtime, MessageKind.Danmu, errors.Add);
+        var secondView = new MessageFeedView(new WindowConfirmationService(), runtime, MessageKind.Danmu, errors.Add);
         var window = new Window { Width = 1000, Height = 700, Content = new StackPanel { Children = { firstView, secondView } } };
         try
         {
@@ -91,7 +92,7 @@ public sealed class SpecialAttentionInteractionTests
         using var directory = new MessageStoreTestDirectory();
         await using var runtime = new PanelRuntime(new(directory.Path), new() { Settings = new() { ShowUserAvatars = false } });
         await runtime.Messages.AppendAsync(new() { RoomTabId = "room", Content = "unknown" }, new());
-        var view = new MessageFeedView(runtime, MessageKind.Danmu, _ => { });
+        var view = new MessageFeedView(new WindowConfirmationService(), runtime, MessageKind.Danmu, _ => { });
         var window = new Window { Width = 800, Height = 300, Content = view };
         try
         {

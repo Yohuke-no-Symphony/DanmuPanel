@@ -1,3 +1,4 @@
+using Yohuke.DanmuPanel.Windowing;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Headless;
@@ -46,7 +47,7 @@ public sealed class ShellPreviewTests
         using var testView = new TestMessagesView(runtime, errors.Add);
         testView.SelectRoom(room);
         var kinds = new[] { MessageKind.Danmu, MessageKind.SuperChat, MessageKind.Gift, MessageKind.Guard, MessageKind.RedPocket };
-        var feeds = kinds.Select(kind => new MessageFeedView(runtime, kind, errors.Add)).ToArray();
+        var feeds = kinds.Select(kind => new MessageFeedView(new WindowConfirmationService(), runtime, kind, errors.Add)).ToArray();
         var panels = new Dictionary<string, Control>
         {
             ["workspace"] = workspaceView, ["danmu"] = feeds[0], ["superChat"] = feeds[1],

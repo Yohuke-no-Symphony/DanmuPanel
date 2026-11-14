@@ -1,3 +1,4 @@
+using Yohuke.DanmuPanel.Windowing;
 using System.Diagnostics;
 using Avalonia.Controls;
 using Avalonia.Headless;
@@ -33,7 +34,7 @@ public sealed class MessageFeedLoadTests(ITestOutputHelper output)
             Kind = MessageKind.Danmu, UserName = "viewer", Content = "before the burst", Count = 300
         });
         var errors = new List<Exception>();
-        var view = new MessageFeedView(runtime, MessageKind.Danmu, errors.Add);
+        var view = new MessageFeedView(new WindowConfirmationService(), runtime, MessageKind.Danmu, errors.Add);
         var window = new Window { Width = 700, Height = 400, Content = view };
         using var lifetime = new CancellationTokenSource();
         var cancellationToken = lifetime.Token;

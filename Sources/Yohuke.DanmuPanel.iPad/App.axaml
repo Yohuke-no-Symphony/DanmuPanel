@@ -1,0 +1,11 @@
+<Application xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:i18n="using:Yohuke.DanmuPanel.I18n"
+             x:Class="Yohuke.DanmuPanel.iPad.App">
+    <Application.Styles>
+        <FluentTheme />
+        <StyleInclude Source="avares://Avalonia.Controls.ColorPicker/Themes/Fluent/Fluent.xaml" />
+        <StyleInclude Source="avares://Yohuke.DanmuPanel.Shared/Views/Styles/PanelTheme.axaml" />
+        <StyleInclude Source="avares://Yohuke.DanmuPanel.iPad/Styles/IpadTheme.axaml" />
+    </Application.Styles>
+</Application>

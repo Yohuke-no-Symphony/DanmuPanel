@@ -1,0 +1,103 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:Yohuke.DanmuPanel.iPad.ViewModels"
+             xmlns:shared="using:Yohuke.DanmuPanel.ViewModels.Settings"
+             xmlns:i18n="using:Yohuke.DanmuPanel.I18n"
+             x:Class="Yohuke.DanmuPanel.iPad.Views.IpadSettingsPage"
+             x:DataType="vm:IpadSettingsViewModel">
+    <UserControl.DataTemplates>
+        <DataTemplate DataType="shared:SettingsChoiceOption" x:DataType="shared:SettingsChoiceOption"><TextBlock Text="{Binding Text}" /></DataTemplate>
+        <DataTemplate DataType="shared:TranslationProviderOption" x:DataType="shared:TranslationProviderOption"><TextBlock Text="{Binding Name}" /></DataTemplate>
+        <DataTemplate DataType="shared:TranslationLanguageOption" x:DataType="shared:TranslationLanguageOption"><TextBlock Text="{Binding DisplayName}" /></DataTemplate>
+    </UserControl.DataTemplates>
+    <Grid RowDefinitions="Auto,*" RowSpacing="12">
+        <StackPanel Spacing="8">
+            <Grid ColumnDefinitions="*,Auto" ColumnSpacing="12">
+                <TextBlock Text="{i18n:Loc Key=iPad.SettingsDraftHelp}" Classes="helpText" />
+                <Button Grid.Column="1" Content="{i18n:Loc Key=iPad.SaveSettings}" Classes="primaryButton" Command="{Binding SaveCommand}" IsEnabled="{Binding !Shell.IsBusy}" />
+            </Grid>
+            <TextBlock Text="{Binding Shell.Error}" IsVisible="{Binding Shell.HasError}" TextWrapping="Wrap" Foreground="{DynamicResource AppErrorBrush}" />
+            <TextBlock Text="{Binding Shell.Notice}" IsVisible="{Binding Shell.HasNotice}" Classes="helpText" />
+        </StackPanel>
+        <ScrollViewer Grid.Row="1">
+            <StackPanel Spacing="16" MaxWidth="1000" HorizontalAlignment="Stretch" Margin="0,0,0,20">
+                <Border Classes="ipadCard">
+                    <StackPanel Spacing="10">
+                        <TextBlock Text="{i18n:Loc Key=Settings.Appearance}" Classes="pageTitle" />
+                        <TextBlock Text="{i18n:Loc Key=Settings.Language}" Classes="fieldLabel" />
+                        <ComboBox ItemsSource="{Binding Appearance.LanguageOptions}" SelectedIndex="{Binding Appearance.LanguageIndex}" HorizontalAlignment="Stretch" />
+                        <TextBlock Text="{i18n:Loc Key=Settings.Theme}" Classes="fieldLabel" />
+                        <ComboBox ItemsSource="{Binding Appearance.ThemeOptions}" SelectedIndex="{Binding Appearance.ThemeIndex}" HorizontalAlignment="Stretch" />
+                        <ToggleSwitch Content="{i18n:Loc Key=iPad.KeepScreenOn}" IsChecked="{Binding KeepScreenOn}" />
+                        <TextBlock Text="{i18n:Loc Key=iPad.ForegroundHelp}" Classes="helpText" />
+                        <TextBlock Text="{i18n:Loc Key=Settings.MessageTextScale}" Classes="fieldLabel" />
+                        <NumericUpDown Value="{Binding Reading.MessageTextScale}" Minimum="50" Maximum="200" Increment="5" FormatString="0" />
+                        <TextBlock Text="{i18n:Loc Key=Settings.MessageRetentionCount}" Classes="fieldLabel" />
+                        <NumericUpDown Value="{Binding Reading.MessageRetentionCount}" Minimum="1" Maximum="{Binding Reading.MaximumMessageRetentionCount}" Increment="100" FormatString="0" />
+                    </StackPanel>
+                </Border>
+                <Border Classes="ipadCard">
+                    <StackPanel Spacing="10">
+                        <TextBlock Text="{i18n:Loc Key=Settings.Reading}" Classes="pageTitle" />
+                        <ToggleSwitch Content="{i18n:Loc Key=Settings.ShowUserAvatars}" IsChecked="{Binding Reading.ShowUserAvatars}" />
+                        <ToggleSwitch Content="{i18n:Loc Key=Settings.ShowFanMedals}" IsChecked="{Binding Reading.ShowFanMedals}" />
+                        <ToggleSwitch Content="{i18n:Loc Key=Settings.HideEmoticonDanmu}" IsChecked="{Binding Reading.HideEmoticonDanmu}" />
+                        <ToggleSwitch Content="{i18n:Loc Key=Settings.CompactDisplay}" IsChecked="{Binding Reading.CompactDisplay}" />
+                        <ToggleSwitch Content="{i18n:Loc Key=Settings.CompactMessageWrap}" IsChecked="{Binding Reading.CompactDanmuWrap}" />
+                        <ToggleSwitch Content="{i18n:Loc Key=Settings.CompactSuperChatWrap}" IsChecked="{Binding Reading.CompactSuperChatWrap}" />
+                        <ToggleSwitch Content="{i18n:Loc Key=Settings.AutoScrollLongMessages}" IsChecked="{Binding Reading.AutoScrollLongMessages}" />
+                        <TextBlock Text="{i18n:Loc Key=Settings.GiftMinimum}" Classes="fieldLabel" />
+                        <NumericUpDown Value="{Binding Reading.GiftMinimum}" Minimum="0" Maximum="1000000000" FormatString="0.##" />
+                        <TextBlock Text="{i18n:Loc Key=Settings.ComboPolicy}" Classes="fieldLabel" />
+                        <ComboBox ItemsSource="{Binding Reading.GiftResetPolicyOptions}" SelectedIndex="{Binding Reading.GiftResetPolicy}" HorizontalAlignment="Stretch" />
+                    </StackPanel>
+                </Border>
+                <Border Classes="ipadCard">
+                    <StackPanel Spacing="10">
+                        <TextBlock Text="{i18n:Loc Key=Settings.Pinyin}" Classes="pageTitle" />
+                        <ToggleSwitch Content="{i18n:Loc Key=Settings.UserPinyin}" IsChecked="{Binding Reading.UserPinyin}" />
+                        <ToggleSwitch Content="{i18n:Loc Key=Settings.GiftPinyin}" IsChecked="{Binding Reading.GiftPinyin}" />
+                        <ToggleSwitch Content="{i18n:Loc Key=Settings.DanmuPinyin}" IsChecked="{Binding Reading.DanmuPinyin}" />
+                        <ToggleSwitch Content="{i18n:Loc Key=Settings.SuperChatPinyin}" IsChecked="{Binding Reading.SuperChatPinyin}" />
+                        <TextBlock Text="{i18n:Loc Key=Settings.PinyinLayout}" Classes="fieldLabel" />
+                        <ComboBox ItemsSource="{Binding Reading.PinyinLayoutOptions}" SelectedIndex="{Binding Reading.PinyinLayout}" HorizontalAlignment="Stretch" />
+                    </StackPanel>
+                </Border>
+                <Border Classes="ipadCard">
+                    <StackPanel Spacing="10">
+                        <TextBlock Text="{i18n:Loc Key=Settings.Translation}" Classes="pageTitle" />
+                        <ToggleSwitch Content="{i18n:Loc Key=Settings.TranslationEnabled}" IsChecked="{Binding Translation.Enabled}" />
+                        <TextBlock Text="{i18n:Loc Key=iPad.TranslationProvider}" Classes="fieldLabel" />
+                        <ComboBox ItemsSource="{Binding Translation.Providers}" SelectedItem="{Binding Translation.SelectedProvider}" HorizontalAlignment="Stretch" />
+                        <TextBlock Text="{i18n:Loc Key=Settings.BaseUrl}" Classes="fieldLabel" IsVisible="{Binding Translation.IsCustomProvider}" />
+                        <TextBox Text="{Binding Translation.BaseUrl}" IsVisible="{Binding Translation.IsCustomProvider}" Watermark="https://api.example.com/v1" />
+                        <TextBlock Text="{i18n:Loc Key=Settings.ApiKey}" Classes="fieldLabel" />
+                        <TextBox Text="{Binding Translation.ApiKey}" PasswordChar="●" />
+                        <TextBlock Text="{i18n:Loc Key=Settings.Model}" Classes="fieldLabel" />
+                        <TextBox Text="{Binding Translation.Model}" />
+                        <TextBlock Text="{i18n:Loc Key=Settings.TargetLanguage}" Classes="fieldLabel" />
+                        <ComboBox ItemsSource="{Binding Translation.Languages}" SelectedItem="{Binding Translation.SelectedLanguage}" HorizontalAlignment="Stretch" />
+                        <TextBlock Text="{i18n:Loc Key=Settings.DisplayMode}" Classes="fieldLabel" />
+                        <ComboBox ItemsSource="{Binding Translation.DisplayModeOptions}" SelectedIndex="{Binding Translation.DisplayMode}" HorizontalAlignment="Stretch" />
+                        <TextBlock Text="{i18n:Loc Key=Settings.Backlog}" Classes="fieldLabel" />
+                        <ComboBox ItemsSource="{Binding Translation.BacklogModeOptions}" SelectedIndex="{Binding Translation.BacklogMode}" HorizontalAlignment="Stretch" />
+                        <TextBlock Text="{i18n:Loc Key=Settings.ExtraPrompt}" Classes="fieldLabel" />
+                        <TextBox Text="{Binding Translation.ExtraPrompt}" AcceptsReturn="True" MinHeight="100" TextWrapping="Wrap" />
+                    </StackPanel>
+                </Border>
+                <Border Classes="ipadCard">
+                    <StackPanel Spacing="10">
+                        <TextBlock Text="{i18n:Loc Key=Settings.Transfer}" Classes="pageTitle" />
+                        <TextBlock Text="{i18n:Loc Key=Settings.TransferHelp}" Classes="helpText" />
+                        <TextBlock Text="{i18n:Loc Key=Settings.TransferKeyHelp}" Classes="helpText" />
+                        <WrapPanel ItemSpacing="8" LineSpacing="8">
+                            <Button Content="{i18n:Loc Key=Settings.Import}" Click="Import_OnClick" IsEnabled="{Binding !Shell.IsBusy}" />
+                            <Button Content="{i18n:Loc Key=Settings.Export}" Click="Export_OnClick" IsEnabled="{Binding !Shell.IsBusy}" />
+                        </WrapPanel>
+                    </StackPanel>
+                </Border>
+                <TextBlock Text="{Binding Shell.Version, StringFormat='Danmu Panel · {0}'}" Classes="helpText" />
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</UserControl>

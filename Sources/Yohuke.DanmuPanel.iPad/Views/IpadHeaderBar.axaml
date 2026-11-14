@@ -1,0 +1,39 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:i18n="using:Yohuke.DanmuPanel.I18n"
+             xmlns:vm="using:Yohuke.DanmuPanel.iPad.ViewModels"
+             x:Class="Yohuke.DanmuPanel.iPad.Views.IpadHeaderBar"
+             x:DataType="vm:IpadShellViewModel">
+    <Grid ColumnDefinitions="*,Auto,*" Background="{DynamicResource AppTitleBarBrush}" Margin="8,0" MinHeight="48">
+        <StackPanel Orientation="Horizontal" Spacing="4" VerticalAlignment="Center" HorizontalAlignment="Left">
+            <TextBlock x:Name="ApplicationName" Text="Danmu Panel" FontSize="13" FontWeight="SemiBold" Margin="4,0,8,0" />
+            <Menu x:Name="ApplicationMenu" Classes="ipadWorkbenchMenu" IsEnabled="{Binding IsReady}" />
+        </StackPanel>
+        <Grid x:Name="RoomStatusToolbar" Grid.Column="1" ColumnDefinitions="Auto,*,Auto,Auto" ColumnSpacing="8"
+              MaxWidth="360" VerticalAlignment="Center" ToolTip.Tip="{Binding Status}">
+            <Border Classes="ipadListenStatus" Classes.listening="{Binding IsListening}" Classes.idle="{Binding !IsListening}" />
+            <TextBlock x:Name="CurrentRoomTitle" Grid.Column="1" Text="{Binding RoomTitle}" FontWeight="SemiBold" FontSize="13"
+                       TextTrimming="CharacterEllipsis" VerticalAlignment="Center" />
+            <TextBlock x:Name="CurrentRoomNumber" Grid.Column="2" Text="{Binding RoomNumber}" Classes="muted" FontSize="12" />
+            <Button x:Name="ListenToggleButton" Grid.Column="3" Classes="ipadIconButton ipadListenToggle"
+                    Classes.listening="{Binding IsListening}" Classes.idle="{Binding !IsListening}"
+                    Command="{Binding ToggleListeningCommand}" ToolTip.Tip="{Binding ListeningText}" AutomationProperties.Name="{Binding ListeningText}">
+                <LucideIcon Kind="{Binding ListenIcon}" Size="17" />
+            </Button>
+        </Grid>
+        <StackPanel Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" IsEnabled="{Binding IsReady}">
+            <Button x:Name="WorkspaceToggleButton" Classes="ipadIconButton" Click="Workspace_OnClick"
+                    ToolTip.Tip="{i18n:Loc Key=iPad.ToggleWorkspace}" AutomationProperties.Name="{i18n:Loc Key=iPad.ToggleWorkspace}">
+                <LucideIcon Kind="PanelLeft" Size="18" />
+            </Button>
+            <Button x:Name="AccountsButton" Classes="ipadIconButton" Click="Accounts_OnClick"
+                    ToolTip.Tip="{i18n:Loc Key=Settings.Accounts}" AutomationProperties.Name="{i18n:Loc Key=Settings.Accounts}">
+                <LucideIcon Kind="UsersRound" Size="18" />
+            </Button>
+            <Button x:Name="SettingsButton" Classes="ipadIconButton" Click="Settings_OnClick"
+                    ToolTip.Tip="{i18n:Loc Key=Settings.Title}" AutomationProperties.Name="{i18n:Loc Key=Settings.Title}">
+                <LucideIcon Kind="Settings" Size="18" />
+            </Button>
+        </StackPanel>
+    </Grid>
+</UserControl>

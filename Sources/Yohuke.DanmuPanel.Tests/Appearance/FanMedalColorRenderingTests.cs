@@ -1,3 +1,4 @@
+using Yohuke.DanmuPanel.Windowing;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Headless;
@@ -48,7 +49,7 @@ public sealed class FanMedalColorRenderingTests
             UserName = "未戴牌观众", Content = "无粉丝牌", MedalGuardLevel = 3
         }, settings.Reading);
         await runtime.Messages.TogglePinAsync("medal-2");
-        var view = new MessageFeedView(runtime, MessageKind.Danmu, exception => throw exception);
+        var view = new MessageFeedView(new WindowConfirmationService(), runtime, MessageKind.Danmu, exception => throw exception);
         var window = new Window
         {
             Width = 760, Height = 480, Content = view,

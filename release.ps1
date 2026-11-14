@@ -55,7 +55,7 @@ function Assert-LanguagePacks
     param([string]$Directory)
 
     Assert-PathExists (Join-Path $Directory "en-US.json") "English language pack"
-    $sourceDirectory = Join-Path $repoRoot "Sources/Yohuke.DanmuPanel/I18n/Languages"
+    $sourceDirectory = Join-Path $repoRoot "Sources/Yohuke.DanmuPanel.Shared/I18n/Languages"
 
     foreach ($sourceFile in Get-ChildItem -LiteralPath $sourceDirectory -Filter "*.json" -File)
     {

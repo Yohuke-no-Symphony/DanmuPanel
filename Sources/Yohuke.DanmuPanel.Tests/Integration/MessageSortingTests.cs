@@ -1,3 +1,4 @@
+using Yohuke.DanmuPanel.Windowing;
 using Avalonia.Controls;
 using Avalonia.Headless;
 using Avalonia.Headless.XUnit;
@@ -55,7 +56,7 @@ public sealed class MessageSortingTests
             await runtime.Messages.MarkAllReadAsync("tab", kind);
         }
         var errors = new List<Exception>();
-        var view = new MessageFeedView(runtime, kind, errors.Add);
+        var view = new MessageFeedView(new WindowConfirmationService(), runtime, kind, errors.Add);
         var window = new Window { Width = 520, Height = 320, Content = view };
         try
         {

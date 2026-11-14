@@ -1,3 +1,4 @@
+using Yohuke.DanmuPanel.Windowing;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Presenters;
@@ -63,7 +64,7 @@ public sealed class AsyncEmoticonLayoutTests
         }).ToArray();
         await runtime.Messages.AppendTestMessagesAsync(records, settings.Reading);
         var errors = new List<Exception>();
-        var view = new MessageFeedView(runtime, MessageKind.Danmu, errors.Add);
+        var view = new MessageFeedView(new WindowConfirmationService(), runtime, MessageKind.Danmu, errors.Add);
         var window = new Window { Width = 480, Height = 420, Content = view };
         try
         {
@@ -176,7 +177,7 @@ public sealed class AsyncEmoticonLayoutTests
         }).ToArray();
         await runtime.Messages.AppendTestMessagesAsync(records, settings.Reading);
         var errors = new List<Exception>();
-        var view = new MessageFeedView(runtime, MessageKind.Danmu, errors.Add);
+        var view = new MessageFeedView(new WindowConfirmationService(), runtime, MessageKind.Danmu, errors.Add);
         var window = new Window { Width = 480, Height = 420, Content = view };
         try
         {

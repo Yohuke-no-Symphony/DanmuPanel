@@ -8,6 +8,11 @@ namespace Yohuke.DanmuPanel.Tests.Integration;
 
 internal sealed class ReceptionTestSocket : ILiveDanmuSocket
 {
+    private int starts;
+    private int stops;
+    internal int Starts => Volatile.Read(ref starts);
+    internal int Stops => Volatile.Read(ref stops);
+
     public event EventHandler<BilibiliDanmuMessage>? DanmuReceived;
     public event EventHandler<BilibiliGiftMessage>? GiftReceived;
     public event EventHandler<BilibiliSuperChatMessage>? SuperChatReceived;
@@ -17,9 +22,17 @@ internal sealed class ReceptionTestSocket : ILiveDanmuSocket
     public event EventHandler? Disconnected;
     public event EventHandler? Recovered;
 
-    public Task StartAsync(CancellationToken cancellationToken = default)
+    public async Task StartAsync(CancellationToken cancellationToken = default)
     {
-        return Task.Delay(Timeout.InfiniteTimeSpan, cancellationToken);
+        Interlocked.Increment(ref starts);
+        try
+        {
+            await Task.Delay(Timeout.InfiniteTimeSpan, cancellationToken);
+        }
+        finally
+        {
+            Interlocked.Increment(ref stops);
+        }
     }
 
     internal void Emit(BilibiliDanmuMessage message) => DanmuReceived?.Invoke(this, message);

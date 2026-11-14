@@ -1,3 +1,4 @@
+using Yohuke.DanmuPanel.Windowing;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Headless;
@@ -45,7 +46,7 @@ public sealed class MessageColumnDragContinuityTests(ITestOutputHelper output)
             Assert.True(await runtime.Messages.ApplyTranslationAsync(record.Id, record.Generation, fingerprint,
                 "Translated words go here"));
         }
-        var view = new MessageFeedView(runtime, MessageKind.Danmu, exception => throw exception);
+        var view = new MessageFeedView(new WindowConfirmationService(), runtime, MessageKind.Danmu, exception => throw exception);
         var window = new Window { Width = 900, Height = 260, Content = view };
         IPointer? pointer = null;
         var pointerPosition = default(Point);

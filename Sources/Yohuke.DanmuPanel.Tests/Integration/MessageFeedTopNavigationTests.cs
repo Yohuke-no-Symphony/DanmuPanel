@@ -1,3 +1,4 @@
+using Yohuke.DanmuPanel.Windowing;
 using Avalonia;
 using Avalonia.Automation;
 using Avalonia.Controls;
@@ -40,7 +41,7 @@ public sealed class MessageFeedTopNavigationTests
         await runtime.Messages.AppendBatchAsync(messages, new());
         var unread = messages[0];
         var errors = new List<Exception>();
-        var view = new MessageFeedView(runtime, kind, errors.Add);
+        var view = new MessageFeedView(new WindowConfirmationService(), runtime, kind, errors.Add);
         var window = new Window { Width = 520, Height = 320, Content = view };
         try
         {
@@ -110,7 +111,7 @@ public sealed class MessageFeedTopNavigationTests
         using var directory = new MessageStoreTestDirectory();
         await using var runtime = new PanelRuntime(new(directory.Path), new());
         var errors = new List<Exception>();
-        var view = new MessageFeedView(runtime, kind, errors.Add);
+        var view = new MessageFeedView(new WindowConfirmationService(), runtime, kind, errors.Add);
         var originalLanguage = Localization.SelectedLanguageID;
         try
         {
@@ -163,7 +164,7 @@ public sealed class MessageFeedTopNavigationTests
         configuration.Settings.Translation.Enabled = false;
         await using var runtime = new PanelRuntime(new(directory.Path), configuration);
         var errors = new List<Exception>();
-        var view = new MessageFeedView(runtime, kind, errors.Add);
+        var view = new MessageFeedView(new WindowConfirmationService(), runtime, kind, errors.Add);
         var window = new Window { Width = 520, Height = 320, Content = view };
         try
         {

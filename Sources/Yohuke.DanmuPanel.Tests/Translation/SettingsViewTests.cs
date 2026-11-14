@@ -11,6 +11,7 @@ using Yohuke.DanmuPanel.Models.State;
 using Yohuke.DanmuPanel.Models.Translation;
 using Yohuke.DanmuPanel.Services;
 using Yohuke.DanmuPanel.Tests.Messages;
+using Yohuke.DanmuPanel.ViewModels.Settings;
 using Yohuke.DanmuPanel.Views.Settings;
 
 namespace Yohuke.DanmuPanel.Tests.Translation;

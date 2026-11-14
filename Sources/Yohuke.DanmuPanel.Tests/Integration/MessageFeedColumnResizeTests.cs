@@ -1,3 +1,4 @@
+using Yohuke.DanmuPanel.Windowing;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Presenters;
@@ -36,7 +37,7 @@ public sealed class MessageFeedColumnResizeTests
         await using var runtime = CreateRuntime(directory, compact);
         var records = await SeedAsync(runtime, kind, 4);
         var errors = new List<Exception>();
-        var view = new MessageFeedView(runtime, kind, errors.Add);
+        var view = new MessageFeedView(new WindowConfirmationService(), runtime, kind, errors.Add);
         var window = new Window { Width = 720, Height = 420, Content = view };
         try
         {
@@ -96,7 +97,7 @@ public sealed class MessageFeedColumnResizeTests
         await using var runtime = CreateRuntime(directory, true);
         var record = Assert.Single(await SeedAsync(runtime, MessageKind.Danmu, 1));
         var errors = new List<Exception>();
-        var view = new MessageFeedView(runtime, MessageKind.Danmu, errors.Add);
+        var view = new MessageFeedView(new WindowConfirmationService(), runtime, MessageKind.Danmu, errors.Add);
         var window = new Window { Width = 640, Height = 300, Content = view };
         try
         {
@@ -143,7 +144,7 @@ public sealed class MessageFeedColumnResizeTests
         await using var runtime = CreateRuntime(directory, false);
         await SeedAsync(runtime, MessageKind.Danmu, 3);
         var errors = new List<Exception>();
-        var view = new MessageFeedView(runtime, MessageKind.Danmu, errors.Add);
+        var view = new MessageFeedView(new WindowConfirmationService(), runtime, MessageKind.Danmu, errors.Add);
         var window = new Window { Width = 720, Height = 400, Content = view };
         try
         {
@@ -189,8 +190,8 @@ public sealed class MessageFeedColumnResizeTests
         await using var runtime = CreateRuntime(directory, true);
         await SeedAsync(runtime, MessageKind.Danmu, 3);
         var errors = new List<Exception>();
-        var first = new MessageFeedView(runtime, MessageKind.Danmu, errors.Add);
-        var second = new MessageFeedView(runtime, MessageKind.Danmu, errors.Add);
+        var first = new MessageFeedView(new WindowConfirmationService(), runtime, MessageKind.Danmu, errors.Add);
+        var second = new MessageFeedView(new WindowConfirmationService(), runtime, MessageKind.Danmu, errors.Add);
         var host = new Grid { ColumnDefinitions = new("*,*"), Children = { first, second } };
         Grid.SetColumn(second, 1);
         var window = new Window { Width = 1100, Height = 360, Content = host };
@@ -243,7 +244,7 @@ public sealed class MessageFeedColumnResizeTests
         var records = await SeedAsync(runtime, MessageKind.Danmu, 140);
         await runtime.Messages.TogglePinAsync(records[0].Id);
         var errors = new List<Exception>();
-        var view = new MessageFeedView(runtime, MessageKind.Danmu, errors.Add);
+        var view = new MessageFeedView(new WindowConfirmationService(), runtime, MessageKind.Danmu, errors.Add);
         var window = new Window { Width = 640, Height = 340, Content = view };
         try
         {
@@ -334,7 +335,7 @@ public sealed class MessageFeedColumnResizeTests
         await using var runtime = CreateRuntime(directory, true);
         var records = await SeedAsync(runtime, MessageKind.Danmu, 3);
         var errors = new List<Exception>();
-        var view = new MessageFeedView(runtime, MessageKind.Danmu, errors.Add);
+        var view = new MessageFeedView(new WindowConfirmationService(), runtime, MessageKind.Danmu, errors.Add);
         var window = new Window { Width = 640, Height = 360, Content = view };
         try
         {
@@ -400,7 +401,7 @@ public sealed class MessageFeedColumnResizeTests
         runtime.Configuration.Settings.MessageTextScale = scale;
         await SeedAsync(runtime, MessageKind.Danmu, 2);
         var errors = new List<Exception>();
-        var view = new MessageFeedView(runtime, MessageKind.Danmu, errors.Add);
+        var view = new MessageFeedView(new WindowConfirmationService(), runtime, MessageKind.Danmu, errors.Add);
         var window = new Window { Width = 320, Height = 400, Content = view };
         try
         {
@@ -445,7 +446,7 @@ public sealed class MessageFeedColumnResizeTests
         runtime.Configuration.Settings.CompactDanmuWrap = true;
         await SeedAsync(runtime, MessageKind.Danmu, 60, true);
         var errors = new List<Exception>();
-        var view = new MessageFeedView(runtime, MessageKind.Danmu, errors.Add);
+        var view = new MessageFeedView(new WindowConfirmationService(), runtime, MessageKind.Danmu, errors.Add);
         var window = new Window { Width = 460, Height = 340, Content = view };
         try
         {

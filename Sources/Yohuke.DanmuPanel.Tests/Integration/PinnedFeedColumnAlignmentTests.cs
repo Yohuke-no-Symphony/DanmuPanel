@@ -1,3 +1,4 @@
+using Yohuke.DanmuPanel.Windowing;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Presenters;
@@ -36,7 +37,7 @@ public sealed class PinnedFeedColumnAlignmentTests
         await using var runtime = CreateRuntime(directory, compact);
         await SeedAsync(runtime, pinnedOverflows ? 30 : 1, scrollingOverflows ? 30 : 1);
         var errors = new List<Exception>();
-        var view = new MessageFeedView(runtime, MessageKind.Danmu, errors.Add);
+        var view = new MessageFeedView(new WindowConfirmationService(), runtime, MessageKind.Danmu, errors.Add);
         var window = new Window { Width = 720, Height = 500, Content = view };
         try
         {
@@ -87,7 +88,7 @@ public sealed class PinnedFeedColumnAlignmentTests
         await using var runtime = CreateRuntime(directory, compact);
         var records = await SeedAsync(runtime, 20, 1);
         var errors = new List<Exception>();
-        var view = new MessageFeedView(runtime, MessageKind.Danmu, errors.Add);
+        var view = new MessageFeedView(new WindowConfirmationService(), runtime, MessageKind.Danmu, errors.Add);
         var window = new Window { Width = 640, Height = 400, Content = view };
         try
         {

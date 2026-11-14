@@ -1,3 +1,4 @@
+using Yohuke.DanmuPanel.Windowing;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Presenters;
@@ -45,7 +46,7 @@ public sealed class MessageCopyInteractionTests
         await runtime.Messages.AppendAsync(first, new());
         await runtime.Messages.AppendAsync(second, new());
         var errors = new List<Exception>();
-        var view = new MessageFeedView(runtime, kind, errors.Add);
+        var view = new MessageFeedView(new WindowConfirmationService(), runtime, kind, errors.Add);
         var window = new Window { Width = 650, Height = 450, Content = view };
         try
         {
@@ -216,7 +217,7 @@ public sealed class MessageCopyInteractionTests
         Assert.True(await runtime.Messages.ApplyTranslationAsync(record.Id, record.Generation, fingerprint,
             "おすすめの動画はこちら https://b23.tv/example です。"));
         var errors = new List<Exception>();
-        var view = new MessageFeedView(runtime, kind, errors.Add);
+        var view = new MessageFeedView(new WindowConfirmationService(), runtime, kind, errors.Add);
         var window = new Window { Width = 650, Height = 500, Content = view };
         try
         {
@@ -293,7 +294,7 @@ public sealed class MessageCopyInteractionTests
         var record = Message(MessageKind.SuperChat);
         await runtime.Messages.AppendAsync(record, new());
         var errors = new List<Exception>();
-        var view = new MessageFeedView(runtime, record.Kind, errors.Add);
+        var view = new MessageFeedView(new WindowConfirmationService(), runtime, record.Kind, errors.Add);
         var window = new Window { Width = 650, Height = 450, Content = view };
         try
         {
@@ -353,7 +354,7 @@ public sealed class MessageCopyInteractionTests
         var record = Message(kind);
         await runtime.Messages.AppendAsync(record, new());
         var errors = new List<Exception>();
-        var view = new MessageFeedView(runtime, kind, errors.Add);
+        var view = new MessageFeedView(new WindowConfirmationService(), runtime, kind, errors.Add);
         var transformed = new LayoutTransformControl
         {
             Child = view, LayoutTransform = new ScaleTransform(scale, scale), Margin = new Thickness(24, 72, 16, 16)
@@ -407,7 +408,7 @@ public sealed class MessageCopyInteractionTests
             Kind = kind, UserName = "viewer", Content = "推荐 BV1xx411c7mD，很好看。", Count = 100
         });
         var errors = new List<Exception>();
-        var view = new MessageFeedView(runtime, kind, errors.Add);
+        var view = new MessageFeedView(new WindowConfirmationService(), runtime, kind, errors.Add);
         var window = new Window { Width = 650, Height = 300, Content = view };
         try
         {
@@ -462,7 +463,7 @@ public sealed class MessageCopyInteractionTests
         await using var runtime = new PanelRuntime(new ConfigurationService(directory.Path), new());
         var record = Message(MessageKind.Danmu);
         await runtime.Messages.AppendAsync(record, new());
-        var view = new MessageFeedView(runtime, record.Kind, error => throw error);
+        var view = new MessageFeedView(new WindowConfirmationService(), runtime, record.Kind, error => throw error);
         var window = new Window { Width = 650, Height = 300, Content = view };
         try
         {

@@ -1,3 +1,4 @@
+using Yohuke.DanmuPanel.Windowing;
 using Avalonia.Controls;
 using Avalonia.Headless;
 using Avalonia.Headless.XUnit;
@@ -40,7 +41,7 @@ public sealed class TranslationPlaceholderTests
         settings.Translation.DisplayMode = mode;
         var message = new MessageRecord { RoomTabId = "tab", Kind = kind, UserName = "viewer", Content = "原文内容" };
         await runtime.Messages.AppendAsync(message, settings.Reading);
-        var view = new MessageFeedView(runtime, kind, exception => throw exception);
+        var view = new MessageFeedView(new WindowConfirmationService(), runtime, kind, exception => throw exception);
         var window = new Window { Width = 640, Height = 400, Content = view };
         try
         {
@@ -131,7 +132,7 @@ public sealed class TranslationPlaceholderTests
         var fingerprint = TranslationRequestFactory.GetConfigurationFingerprint(settings.Translation);
         var message = new MessageRecord { RoomTabId = "tab", Kind = kind, UserName = "viewer", Content = "原文内容" };
         await runtime.Messages.AppendAsync(message, settings.Reading, fingerprint);
-        var view = new MessageFeedView(runtime, kind, exception => throw exception);
+        var view = new MessageFeedView(new WindowConfirmationService(), runtime, kind, exception => throw exception);
         var window = new Window { Width = 640, Height = 400, Content = view };
         try
         {

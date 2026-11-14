@@ -1,0 +1,142 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Style Selector=":is(TemplatedControl)">
+        <Setter Property="FontFamily" Value="{StaticResource ContentControlThemeFontFamily}" />
+        <Setter Property="ScrollViewer.AllowAutoHide" Value="False" />
+    </Style>
+
+    <Style Selector="Grid.rootSurface">
+        <Setter Property="Background" Value="{DynamicResource AppBackgroundBrush}" />
+    </Style>
+
+    <Style Selector="ToggleButton.actionToggle:checked /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="{DynamicResource AppSidebarSelectedBrush}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource AppPrimaryBrush}" />
+        <Setter Property="BorderThickness" Value="1" />
+    </Style>
+
+    <Style Selector="ToggleButton.actionToggle:checked LucideIcon">
+        <Setter Property="Foreground" Value="{DynamicResource AppPrimaryBrush}" />
+    </Style>
+
+    <Style Selector="Button.iconButton, ToggleButton.iconButton, RadioButton.iconButton">
+        <Setter Property="Width" Value="{StaticResource WorkbenchControlHeight}" />
+        <Setter Property="Height" Value="{StaticResource WorkbenchControlHeight}" />
+        <Setter Property="MinWidth" Value="{StaticResource WorkbenchControlHeight}" />
+        <Setter Property="MinHeight" Value="{StaticResource WorkbenchControlHeight}" />
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="CornerRadius" Value="6" />
+    </Style>
+
+    <Style Selector="Button.iconButton.selected">
+        <Setter Property="Background" Value="{DynamicResource AppSidebarSelectedBrush}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource AppPrimaryBrush}" />
+        <Setter Property="BorderThickness" Value="1" />
+    </Style>
+
+    <Style Selector="ToggleButton.iconButton:checked, RadioButton.iconButton:checked">
+        <Setter Property="Background" Value="{DynamicResource AppSidebarSelectedBrush}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource AppPrimaryBrush}" />
+        <Setter Property="BorderThickness" Value="1" />
+    </Style>
+
+    <Style Selector="ToggleButton.iconButton:checked /template/ ContentPresenter#PART_ContentPresenter, RadioButton.iconButton:checked /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="{DynamicResource AppSidebarSelectedBrush}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource AppPrimaryBrush}" />
+    </Style>
+
+    <Style Selector="TextBox">
+        <Setter Property="FontSize" Value="{DynamicResource AppFontSizeBody}" />
+        <Setter Property="MinHeight" Value="32" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+    </Style>
+
+    <Style Selector="TextBox[AcceptsReturn=True]">
+        <Setter Property="VerticalContentAlignment" Value="Top" />
+    </Style>
+
+    <Style Selector="ComboBox">
+        <Setter Property="FontSize" Value="{DynamicResource AppFontSizeBody}" />
+        <Setter Property="MinHeight" Value="32" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+    </Style>
+
+    <Style Selector="CheckBox, RadioButton, ToggleButton, TabItem, ComboBoxItem, ListBoxItem">
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+    </Style>
+
+    <Style Selector="LucideIcon">
+        <Setter Property="Size" Value="17" />
+        <Setter Property="StrokeWidth" Value="1.8" />
+        <Setter Property="Foreground" Value="{DynamicResource AppTextBrush}" />
+    </Style>
+
+    <Style Selector="Button.iconButton LucideIcon, ToggleButton.iconButton LucideIcon, RadioButton.iconButton LucideIcon">
+        <Setter Property="Size" Value="16" />
+        <Setter Property="Foreground" Value="{DynamicResource AppTextBrush}" />
+    </Style>
+
+    <Style Selector="ToggleButton.iconButton:checked LucideIcon, RadioButton.iconButton:checked LucideIcon">
+        <Setter Property="Foreground" Value="{DynamicResource AppPrimaryBrush}" />
+    </Style>
+
+    <Style Selector="Button.iconButton PathIcon">
+        <Setter Property="Width" Value="16" />
+        <Setter Property="Height" Value="16" />
+        <Setter Property="Foreground" Value="{DynamicResource AppPrimaryBrush}" />
+    </Style>
+
+    <Style Selector="MenuItem LucideIcon">
+        <Setter Property="Size" Value="16" />
+        <Setter Property="Foreground" Value="{DynamicResource AppTextBrush}" />
+    </Style>
+
+    <Style Selector="Button.primaryButton">
+        <Setter Property="Background" Value="{DynamicResource AppPrimaryBrush}" />
+        <Setter Property="Foreground" Value="{DynamicResource AppPrimaryTextBrush}" />
+        <Setter Property="CornerRadius" Value="{StaticResource WorkbenchControlCornerRadius}" />
+    </Style>
+
+    <Style Selector="Button.primaryButton:pointerover">
+        <Setter Property="Foreground" Value="{DynamicResource AppPrimaryTextBrush}" />
+    </Style>
+
+    <Style Selector="Button.primaryButton:pressed">
+        <Setter Property="Foreground" Value="{DynamicResource AppPrimaryTextBrush}" />
+    </Style>
+
+    <Style Selector="Button.primaryButton TextBlock">
+        <Setter Property="Foreground" Value="{DynamicResource AppPrimaryTextBrush}" />
+    </Style>
+
+    <Style Selector="Button.primaryButton LucideIcon">
+        <Setter Property="Foreground" Value="{DynamicResource AppPrimaryTextBrush}" />
+    </Style>
+
+    <Style Selector="Border.panel">
+        <Setter Property="Background" Value="{DynamicResource AppPanelBrush}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource AppBorderBrush}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="CornerRadius" Value="8" />
+    </Style>
+
+    <Style Selector="TextBlock">
+        <Setter Property="Foreground" Value="{DynamicResource AppTextBrush}" />
+        <Setter Property="FontFamily" Value="{StaticResource ContentControlThemeFontFamily}" />
+        <Setter Property="FontSize" Value="{DynamicResource AppFontSizeBody}" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+
+    <Style Selector="TextBlock.muted">
+        <Setter Property="Foreground" Value="{DynamicResource AppMutedTextBrush}" />
+        <Setter Property="FontSize" Value="{DynamicResource AppFontSizeCaption}" />
+    </Style>
+
+    <Style Selector="TextBlock.sectionTitle">
+        <Setter Property="FontSize" Value="{DynamicResource AppFontSizeTitle}" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="Foreground" Value="{DynamicResource AppTextBrush}" />
+    </Style>
+</Styles>

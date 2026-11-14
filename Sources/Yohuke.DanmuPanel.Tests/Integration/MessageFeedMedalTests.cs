@@ -1,3 +1,4 @@
+using Yohuke.DanmuPanel.Windowing;
 using Avalonia.Controls;
 using Avalonia.Headless.XUnit;
 using Avalonia.Threading;
@@ -40,7 +41,7 @@ public sealed class MessageFeedMedalTests
         await runtime.Messages.AppendAsync(withMedal, settings.Reading);
         await runtime.Messages.AppendAsync(withoutMedal, settings.Reading);
         await runtime.Messages.TogglePinAsync(withMedal.Id);
-        var view = new MessageFeedView(runtime, MessageKind.Danmu, exception => throw exception);
+        var view = new MessageFeedView(new WindowConfirmationService(), runtime, MessageKind.Danmu, exception => throw exception);
         var window = new Window { Content = view, Width = width, Height = 480 };
         try
         {

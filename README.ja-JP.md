@@ -41,6 +41,33 @@ dotnet run --project Sources/Yohuke.DanmuPanel/Yohuke.DanmuPanel.csproj
 dotnet test Sources/Yohuke.DanmuPanel.Tests/Yohuke.DanmuPanel.Tests.csproj --filter FullyQualifiedName~Windowing.ShellWindowTests
 ```
 
+## プロジェクト構成と iPad 開発
+
+- `Sources/Yohuke.DanmuPanel.Shared`：サービス、ViewModel、多言語リソース、メッセージ部品を共有する Avalonia ライブラリ。
+- `Sources/Yohuke.DanmuPanel`：デスクトップの起動、ウィンドウ、Dock レイアウト、設定画面。
+- `Sources/Yohuke.DanmuPanel.iPad`：独立した iPad 画面、ナビゲーション、タッチ操作とプラットフォーム契約。
+- `Sources/Yohuke.DanmuPanel.iOS`：iOS の起動、UIScene ライフサイクル、署名、画面の自動ロック制御。
+
+デスクトップは `Sources/Yohuke.DanmuPanel.sln`、iPad は `Sources/Yohuke.DanmuPanel.iPad.sln` を使用します。デスクトップのビルドに iOS workload は不要です。
+
+iOS プロジェクトの `global.json` は対応する SDK/workload set を固定しています。現在の組み合わせは .NET 10.0.404、iOS workload 27.2.10000、Xcode 27.2 です。対応 SDK をインストールした Mac で次を実行します。
+
+```sh
+cd Sources/Yohuke.DanmuPanel.iOS
+dotnet workload restore
+dotnet build -c Release -r ios-arm64 \
+  -p:CodesignKey="Apple Development: YOUR_IDENTITY" \
+  -p:CodesignProvision="YOUR_DEVELOPMENT_PROFILE"
+```
+
+実機をペアリングし、開発者モードを有効にして、対象端末を含む開発用プロビジョニングプロファイルを使用してください。署名情報はローカルのビルド引数で指定し、リポジトリには保存しません。Personal Team のインストールは Apple のプロファイル有効期限に従い、期限後は再署名と再インストールが必要です。
+
+iPad UI のテストには iOS workload が不要です。
+
+```sh
+dotnet test Sources/Yohuke.DanmuPanel.iPad.Tests/Yohuke.DanmuPanel.iPad.Tests.csproj
+```
+
 ## クレジット
 
 アイコンのキャラクターイラストは @hshjbbnd が描いたものです。キャラクターは[椎名菜羽](https://space.bilibili.com/623441612)です。

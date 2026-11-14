@@ -1,3 +1,4 @@
+using Yohuke.DanmuPanel.Windowing;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Layout;
@@ -40,7 +41,7 @@ public sealed class MessageFeedCompactTests
         var message = CreateMessage(kind);
         await runtime.Messages.AppendAsync(message, settings.Reading);
         var errors = new List<Exception>();
-        var view = new MessageFeedView(runtime, kind, errors.Add);
+        var view = new MessageFeedView(new WindowConfirmationService(), runtime, kind, errors.Add);
         var window = new Window { Width = 640, Height = 400, Content = view };
         try
         {
@@ -99,7 +100,7 @@ public sealed class MessageFeedCompactTests
         var message = CreateMessage(kind, longText: true);
         await runtime.Messages.AppendAsync(message, settings.Reading);
         var errors = new List<Exception>();
-        var view = new MessageFeedView(runtime, kind, errors.Add);
+        var view = new MessageFeedView(new WindowConfirmationService(), runtime, kind, errors.Add);
         var window = new Window { Width = kind == MessageKind.Guard ? 180 : 360, Height = 800, Content = view };
         try
         {
@@ -160,7 +161,7 @@ public sealed class MessageFeedCompactTests
         Assert.True(await runtime.Messages.ApplyTranslationAsync(translated.Id, translated.Generation, fingerprint, "Translated content"));
         await runtime.Messages.AppendAsync(fallback, settings.Reading);
         var errors = new List<Exception>();
-        var view = new MessageFeedView(runtime, kind, errors.Add);
+        var view = new MessageFeedView(new WindowConfirmationService(), runtime, kind, errors.Add);
         var window = new Window { Width = 640, Height = 500, Content = view };
         try
         {
@@ -210,7 +211,7 @@ public sealed class MessageFeedCompactTests
         await runtime.Messages.AppendAsync(message, settings.Reading, fingerprint);
         Assert.True(await runtime.Messages.ApplyTranslationAsync(message.Id, message.Generation, fingerprint,
             string.Concat(Enumerable.Repeat("Long translated content. ", 12))));
-        var view = new MessageFeedView(runtime, kind, exception => throw exception);
+        var view = new MessageFeedView(new WindowConfirmationService(), runtime, kind, exception => throw exception);
         var window = new Window { Width = 500, Height = 700, Content = view };
         try
         {
@@ -269,7 +270,7 @@ public sealed class MessageFeedCompactTests
         using var directory = new MessageStoreTestDirectory();
         await using var runtime = CreateRuntime(directory);
         var errors = new List<Exception>();
-        var view = new MessageFeedView(runtime, MessageKind.Danmu, errors.Add);
+        var view = new MessageFeedView(new WindowConfirmationService(), runtime, MessageKind.Danmu, errors.Add);
         var window = new Window { Width = 640, Height = 500, Content = view, RequestedThemeVariant = ThemeVariant.Light };
         try
         {

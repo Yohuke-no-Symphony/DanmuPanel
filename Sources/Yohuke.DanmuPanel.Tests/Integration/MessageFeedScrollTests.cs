@@ -1,3 +1,4 @@
+using Yohuke.DanmuPanel.Windowing;
 using System.Collections.Specialized;
 using Avalonia;
 using Avalonia.Controls;
@@ -38,7 +39,7 @@ public sealed class MessageFeedScrollTests
             await runtime.Messages.AppendAsync(Message(kind, time.AddSeconds(index)), new());
         }
         var errors = new List<Exception>();
-        var view = new MessageFeedView(runtime, kind, errors.Add);
+        var view = new MessageFeedView(new WindowConfirmationService(), runtime, kind, errors.Add);
         var window = new Window { Width = 500, Height = 360, Content = view };
         try
         {

@@ -1,3 +1,4 @@
+using Yohuke.DanmuPanel.Windowing;
 using Avalonia.Controls;
 using Avalonia.Headless.XUnit;
 using Avalonia.Media;
@@ -39,7 +40,7 @@ public sealed class GiftColorRenderingTests
                 Quantity = Math.Max(1, (int)(price / 0.1m)), TotalPrice = price
             }, new());
         }
-        var view = new MessageFeedView(runtime, MessageKind.Gift, exception => throw exception);
+        var view = new MessageFeedView(new WindowConfirmationService(), runtime, MessageKind.Gift, exception => throw exception);
         var window = new Window { Width = 760, Height = 820, Content = view };
         try
         {

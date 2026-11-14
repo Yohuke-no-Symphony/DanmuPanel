@@ -1,3 +1,4 @@
+using Yohuke.DanmuPanel.Windowing;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Headless;
@@ -48,7 +49,7 @@ public sealed class ContentPinyinFeedTests
         var fingerprint = TranslationRequestFactory.GetConfigurationFingerprint(settings.Translation);
         await runtime.Messages.AppendAsync(record, settings.Reading, fingerprint);
         Assert.True(await runtime.Messages.ApplyTranslationAsync(record.Id, record.Generation, fingerprint, "Translation"));
-        var view = new MessageFeedView(runtime, MessageKind.Danmu, exception => throw exception);
+        var view = new MessageFeedView(new WindowConfirmationService(), runtime, MessageKind.Danmu, exception => throw exception);
         var window = new Window { Width = 1600, Height = 500, Content = view };
         try
         {
@@ -106,7 +107,7 @@ public sealed class ContentPinyinFeedTests
         var fingerprint = TranslationRequestFactory.GetConfigurationFingerprint(settings.Translation);
         await runtime.Messages.AppendAsync(record, settings.Reading, fingerprint);
         Assert.True(await runtime.Messages.ApplyTranslationAsync(record.Id, record.Generation, fingerprint, "Hello ABC"));
-        var view = new MessageFeedView(runtime, kind, exception => throw exception);
+        var view = new MessageFeedView(new WindowConfirmationService(), runtime, kind, exception => throw exception);
         var window = new Window { Width = 640, Height = 500, Content = view };
         try
         {
@@ -204,7 +205,7 @@ public sealed class ContentPinyinFeedTests
             RoomTabId = "tab", RoomId = "123", Kind = kind, UserName = "viewer", Content = "你好", TotalPrice = 30
         };
         await runtime.Messages.AppendAsync(record, settings.Reading);
-        var view = new MessageFeedView(runtime, kind, exception => throw exception);
+        var view = new MessageFeedView(new WindowConfirmationService(), runtime, kind, exception => throw exception);
         var window = new Window { Width = 640, Height = 400, Content = view };
         try
         {
@@ -263,7 +264,7 @@ public sealed class ContentPinyinFeedTests
             UserName = "小明", GiftName = "鲜花", Quantity = 2, TotalPrice = 20
         };
         await runtime.Messages.AppendAsync(record, settings.Reading);
-        var view = new MessageFeedView(runtime, MessageKind.Gift, exception => throw exception);
+        var view = new MessageFeedView(new WindowConfirmationService(), runtime, MessageKind.Gift, exception => throw exception);
         var window = new Window { Width = 1000, Height = 400, Content = view };
         try
         {
@@ -350,7 +351,7 @@ public sealed class ContentPinyinFeedTests
         };
         var fingerprint = TranslationRequestFactory.GetConfigurationFingerprint(settings.Translation);
         await runtime.Messages.AppendAsync(record, settings.Reading, fingerprint);
-        var view = new MessageFeedView(runtime, MessageKind.Danmu, exception => throw exception);
+        var view = new MessageFeedView(new WindowConfirmationService(), runtime, MessageKind.Danmu, exception => throw exception);
         var window = new Window { Width = 1000, Height = 400, Content = view };
         try
         {

@@ -23,7 +23,7 @@
                                       SelectedItem="{Binding SelectedProvider, Mode=TwoWay}"
                                       HorizontalAlignment="Stretch">
                                 <ComboBox.ItemTemplate>
-                                    <DataTemplate x:DataType="settings:TranslationProviderOption">
+                                    <DataTemplate x:DataType="vm:TranslationProviderOption">
                                         <StackPanel Spacing="2">
                                             <TextBlock Text="{Binding Name}" IsVisible="{Binding IsPreset}"/>
                                             <TextBlock Text="{Binding BaseUrl}" FontSize="11" Opacity="0.7" IsVisible="{Binding IsPreset}"/>
@@ -50,7 +50,7 @@
                                   SelectedItem="{Binding SelectedLanguage, Mode=TwoWay}"
                                   HorizontalAlignment="Stretch">
                             <ComboBox.ItemTemplate>
-                                <DataTemplate x:DataType="settings:TranslationLanguageOption">
+                                <DataTemplate x:DataType="vm:TranslationLanguageOption">
                                     <StackPanel Orientation="Horizontal" Spacing="6">
                                         <TextBlock Text="{Binding DisplayName}"/>
                                         <TextBlock Text="{Binding DisplayCode}"/>
@@ -107,12 +107,12 @@
                               GridLinesVisibility="Horizontal"
                               LoadingRow="Glossary_OnLoadingRow">
                         <DataGrid.Columns>
-                            <DataGridTextColumn x:DataType="settings:GlossaryRow" Binding="{Binding Source, Mode=TwoWay}" Width="*">
+                            <DataGridTextColumn x:DataType="vm:GlossaryRow" Binding="{Binding Source, Mode=TwoWay}" Width="*">
                                 <DataGridTextColumn.Header>
                                     <TextBlock Text="{Loc Key=Settings.TermSource}" TextWrapping="Wrap"/>
                                 </DataGridTextColumn.Header>
                             </DataGridTextColumn>
-                            <DataGridTextColumn x:DataType="settings:GlossaryRow" Binding="{Binding Target, Mode=TwoWay}" Width="*">
+                            <DataGridTextColumn x:DataType="vm:GlossaryRow" Binding="{Binding Target, Mode=TwoWay}" Width="*">
                                 <DataGridTextColumn.Header>
                                     <StackPanel Orientation="Horizontal" Spacing="6">
                                         <TextBlock Text="{Loc Key=Settings.TermTarget}" TextWrapping="Wrap"/>

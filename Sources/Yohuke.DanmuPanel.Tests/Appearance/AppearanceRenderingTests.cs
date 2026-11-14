@@ -1,3 +1,4 @@
+using Yohuke.DanmuPanel.Windowing;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Headless.XUnit;
@@ -36,8 +37,8 @@ public sealed class AppearanceRenderingTests
             TranslationFingerprint = TranslationRequestFactory.GetConfigurationFingerprint(settings.Translation)
         };
         await runtime.Messages.AppendAsync(record, new());
-        var first = new MessageFeedView(runtime, MessageKind.Danmu, exception => throw exception);
-        var second = new MessageFeedView(runtime, MessageKind.Danmu, exception => throw exception);
+        var first = new MessageFeedView(new WindowConfirmationService(), runtime, MessageKind.Danmu, exception => throw exception);
+        var second = new MessageFeedView(new WindowConfirmationService(), runtime, MessageKind.Danmu, exception => throw exception);
         var window = new Window { Width = 800, Height = 400, Content = first };
         var floating = new Window { Width = 600, Height = 400, Content = second };
         try

@@ -1,3 +1,4 @@
+using Yohuke.DanmuPanel.Windowing;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Headless;
@@ -78,7 +79,7 @@ public sealed class PinyinLoadingPlaceholderTests
         var room = new RoomTabState { Id = "tab", RoomId = "123" };
         await runtime.TestMessages.AddAsync(room, new() { UserName = "小明", Content = "你好，拼音正在后台准备", Count = 1 });
         var errors = new List<Exception>();
-        var view = new MessageFeedView(runtime, MessageKind.Danmu, errors.Add);
+        var view = new MessageFeedView(new WindowConfirmationService(), runtime, MessageKind.Danmu, errors.Add);
         var window = new Window { Width = 640, Height = 240, Content = view };
         try
         {

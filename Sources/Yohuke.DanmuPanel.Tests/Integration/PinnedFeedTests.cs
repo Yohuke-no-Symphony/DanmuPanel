@@ -1,3 +1,4 @@
+using Yohuke.DanmuPanel.Windowing;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Presenters;
@@ -41,7 +42,7 @@ public sealed class PinnedFeedTests
             await runtime.Messages.MarkReadAsync(normal.Id, normal.Quantity, normal.TotalPrice);
         }
         var errors = new List<Exception>();
-        var view = new MessageFeedView(runtime, kind, errors.Add);
+        var view = new MessageFeedView(new WindowConfirmationService(), runtime, kind, errors.Add);
         var window = new Window { Width = 700, Height = 480, Content = view };
         try
         {
@@ -117,7 +118,7 @@ public sealed class PinnedFeedTests
         await runtime.Messages.TogglePinAsync(pinned.Id);
         await AppendDanmuAsync(runtime, 0, 40);
         var errors = new List<Exception>();
-        var view = new MessageFeedView(runtime, MessageKind.Danmu, errors.Add);
+        var view = new MessageFeedView(new WindowConfirmationService(), runtime, MessageKind.Danmu, errors.Add);
         var window = new Window { Width = 700, Height = 480, Content = view };
         try
         {
@@ -170,7 +171,7 @@ public sealed class PinnedFeedTests
         }
         await AppendDanmuAsync(runtime, 30, 30);
         var errors = new List<Exception>();
-        var view = new MessageFeedView(runtime, MessageKind.Danmu, errors.Add);
+        var view = new MessageFeedView(new WindowConfirmationService(), runtime, MessageKind.Danmu, errors.Add);
         var window = new Window { Width = 700, Height = 500, Content = view };
         try
         {
@@ -220,7 +221,7 @@ public sealed class PinnedFeedTests
             await runtime.Messages.AppendAsync(record, new());
         }
         var errors = new List<Exception>();
-        var view = new MessageFeedView(runtime, kind, errors.Add);
+        var view = new MessageFeedView(new WindowConfirmationService(), runtime, kind, errors.Add);
         var window = new Window { Width = 700, Height = 400, Content = view };
         try
         {
@@ -318,7 +319,7 @@ public sealed class PinnedFeedTests
         await using var runtime = CreateRuntime(directory);
         await AppendDanmuAsync(runtime, 0, 310);
         var errors = new List<Exception>();
-        var view = new MessageFeedView(runtime, MessageKind.Danmu, errors.Add);
+        var view = new MessageFeedView(new WindowConfirmationService(), runtime, MessageKind.Danmu, errors.Add);
         var window = new Window { Width = 700, Height = 480, Content = view };
         try
         {

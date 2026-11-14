@@ -1,3 +1,4 @@
+using Yohuke.DanmuPanel.Windowing;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Headless;
@@ -39,7 +40,7 @@ public sealed class DanmuTranslationLayoutTests
         {
             Assert.True(await runtime.Messages.ApplyTranslationAsync(message.Id, message.Generation, fingerprint, "Short translation"));
         }
-        var view = new MessageFeedView(runtime, MessageKind.Danmu, exception => throw exception);
+        var view = new MessageFeedView(new WindowConfirmationService(), runtime, MessageKind.Danmu, exception => throw exception);
         var window = new Window { Width = 640, Height = 300, Content = view };
         try
         {
@@ -119,7 +120,7 @@ public sealed class DanmuTranslationLayoutTests
         var message = Message("你好");
         var fingerprint = TranslationRequestFactory.GetConfigurationFingerprint(settings.Translation);
         await runtime.Messages.AppendAsync(message, settings.Reading, fingerprint);
-        var view = new MessageFeedView(runtime, MessageKind.Danmu, exception => throw exception);
+        var view = new MessageFeedView(new WindowConfirmationService(), runtime, MessageKind.Danmu, exception => throw exception);
         var window = new Window { Width = 640, Height = 500, Content = view };
         try
         {
@@ -197,7 +198,7 @@ public sealed class DanmuTranslationLayoutTests
         var message = Message(originalBreaks ? "第一行\n第二行" : "短弹幕");
         var fingerprint = TranslationRequestFactory.GetConfigurationFingerprint(settings.Translation);
         await runtime.Messages.AppendAsync(message, settings.Reading, fingerprint);
-        var view = new MessageFeedView(runtime, MessageKind.Danmu, exception => throw exception);
+        var view = new MessageFeedView(new WindowConfirmationService(), runtime, MessageKind.Danmu, exception => throw exception);
         var window = new Window { Width = 640, Height = 400, Content = view };
         try
         {
@@ -247,7 +248,7 @@ public sealed class DanmuTranslationLayoutTests
         var message = Message("晚安");
         var fingerprint = TranslationRequestFactory.GetConfigurationFingerprint(settings.Translation);
         await runtime.Messages.AppendAsync(message, settings.Reading, fingerprint);
-        var view = new MessageFeedView(runtime, MessageKind.Danmu, exception => throw exception);
+        var view = new MessageFeedView(new WindowConfirmationService(), runtime, MessageKind.Danmu, exception => throw exception);
         var window = new Window { Width = 640, Height = 130, Content = view };
         try
         {
@@ -321,7 +322,7 @@ public sealed class DanmuTranslationLayoutTests
         var fingerprint = TranslationRequestFactory.GetConfigurationFingerprint(settings.Translation);
         await runtime.Messages.AppendAsync(message, settings.Reading, fingerprint);
         Assert.True(await runtime.Messages.ApplyTranslationAsync(message.Id, message.Generation, fingerprint, "Hello"));
-        var view = new MessageFeedView(runtime, MessageKind.Danmu, exception => throw exception);
+        var view = new MessageFeedView(new WindowConfirmationService(), runtime, MessageKind.Danmu, exception => throw exception);
         var window = new Window { Width = 640, Height = 300, Content = view };
         try
         {
@@ -367,7 +368,7 @@ public sealed class DanmuTranslationLayoutTests
         {
             await runtime.Messages.AppendAsync(message, settings.Reading, fingerprint);
         }
-        var view = new MessageFeedView(runtime, MessageKind.Danmu, exception => throw exception);
+        var view = new MessageFeedView(new WindowConfirmationService(), runtime, MessageKind.Danmu, exception => throw exception);
         var window = new Window { Width = 500, Height = 260, Content = view };
         try
         {

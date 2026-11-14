@@ -1,0 +1,128 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:i18n="using:Yohuke.DanmuPanel.I18n"
+             xmlns:vm="using:Yohuke.DanmuPanel.iPad.ViewModels"
+             xmlns:messages="using:Yohuke.DanmuPanel.Models.Messages"
+             x:Class="Yohuke.DanmuPanel.iPad.Views.IpadShellView"
+             x:DataType="vm:IpadShellViewModel">
+    <Grid Background="{DynamicResource AppBackgroundBrush}" RowDefinitions="Auto,Auto,*,Auto">
+        <ContentControl x:Name="HeaderHost" HorizontalContentAlignment="Stretch" />
+        <StackPanel Grid.Row="1" Spacing="4" Margin="8,0">
+            <Border Classes="ipadSetupBanner" IsVisible="{Binding NeedsSetup}">
+                <Grid ColumnDefinitions="*,Auto" ColumnSpacing="4">
+                    <TextBlock Text="{i18n:Loc Key=iPad.SetupHelp}" Classes="helpText" FontSize="12" Margin="8,0" VerticalAlignment="Center" />
+                    <Button Grid.Column="1" Classes="ipadIconButton" Click="Rooms_OnClick" IsEnabled="{Binding IsReady}"
+                            ToolTip.Tip="{i18n:Loc Key=iPad.AddRoom}" AutomationProperties.Name="{i18n:Loc Key=iPad.AddRoom}">
+                        <LucideIcon Kind="CirclePlus" Size="18" />
+                    </Button>
+                </Grid>
+            </Border>
+            <Border Classes="ipadSetupBanner" IsVisible="{Binding HasError}">
+                <Grid ColumnDefinitions="*,Auto">
+                    <TextBlock Text="{Binding Error}" TextWrapping="Wrap" Foreground="{DynamicResource AppErrorBrush}" Margin="8,0" VerticalAlignment="Center" FontSize="12" />
+                    <Button Grid.Column="1" Classes="ipadIconButton" Command="{Binding DismissErrorCommand}"
+                            ToolTip.Tip="{i18n:Loc Key=iPad.Close}" AutomationProperties.Name="{i18n:Loc Key=iPad.Close}">
+                        <LucideIcon Kind="X" Size="16" />
+                    </Button>
+                </Grid>
+            </Border>
+            <ProgressBar IsIndeterminate="True" Height="2" IsVisible="{Binding IsBusy}" />
+        </StackPanel>
+        <Grid x:Name="WorkbenchBody" Grid.Row="2" Margin="8,4,8,8">
+            <Grid x:Name="ReadingArea" RowDefinitions="Auto,*">
+                <ScrollViewer x:Name="CategorySelector" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Disabled" Margin="0,0,0,4">
+                    <TabStrip x:Name="CategoryTabs" SelectedIndex="0" SelectionChanged="Category_OnChanged" Classes="ipadCategoryTabs">
+                        <TabStripItem x:Name="DanmuTab" Content="{i18n:Loc Key=Workbench.Panel.Danmu}" Tag="{x:Static messages:MessageKind.Danmu}" />
+                        <TabStripItem Content="SC" Tag="{x:Static messages:MessageKind.SuperChat}" />
+                        <TabStripItem Content="{i18n:Loc Key=Workbench.Panel.Gift}" Tag="{x:Static messages:MessageKind.Gift}" />
+                        <TabStripItem Content="{i18n:Loc Key=Workbench.Panel.RedPocket}" Tag="{x:Static messages:MessageKind.RedPocket}" />
+                        <TabStripItem Content="{i18n:Loc Key=Workbench.Panel.Guard}" Tag="{x:Static messages:MessageKind.Guard}" />
+                    </TabStrip>
+                </ScrollViewer>
+                <Grid x:Name="WideLayout" Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="61*" MinWidth="320" />
+                        <ColumnDefinition Width="44" />
+                        <ColumnDefinition Width="39*" MinWidth="320" />
+                    </Grid.ColumnDefinitions>
+                    <ContentControl x:Name="DanmuHost" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" />
+                    <GridSplitter x:Name="ReadingColumnSplitter" Grid.Column="1" Classes="ipadReadingSplitter"
+                                  ResizeDirection="Columns" ResizeBehavior="PreviousAndNext" ShowsPreview="False"
+                                  DragIncrement="1" KeyboardIncrement="10"
+                                  HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                                  ToolTip.Tip="{i18n:Loc Key=iPad.ResizePanels}"
+                                  AutomationProperties.Name="{i18n:Loc Key=iPad.ResizePanels}" />
+                    <Grid x:Name="PaidDock" Grid.Column="2" RowDefinitions="Auto,*" RowSpacing="4">
+                        <ScrollViewer HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Disabled">
+                            <TabStrip x:Name="PaidCategoryTabs" SelectedIndex="0" SelectionChanged="PaidCategory_OnChanged" Classes="ipadCategoryTabs ipadPaidTabs">
+                                <TabStripItem Tag="{x:Static messages:MessageKind.SuperChat}" AutomationProperties.Name="{i18n:Loc Key=Workbench.Panel.SuperChat}">
+                                    <StackPanel Orientation="Horizontal" Spacing="4">
+                                        <TextBlock Text="SC" /><ContentControl x:Name="SuperChatDockBadge" VerticalContentAlignment="Center" />
+                                    </StackPanel>
+                                </TabStripItem>
+                                <TabStripItem Tag="{x:Static messages:MessageKind.Gift}" AutomationProperties.Name="{i18n:Loc Key=Workbench.Panel.Gift}">
+                                    <StackPanel Orientation="Horizontal" Spacing="4">
+                                        <TextBlock Text="{i18n:Loc Key=Workbench.Panel.Gift}" /><ContentControl x:Name="GiftDockBadge" VerticalContentAlignment="Center" />
+                                    </StackPanel>
+                                </TabStripItem>
+                                <TabStripItem Tag="{x:Static messages:MessageKind.RedPocket}" AutomationProperties.Name="{i18n:Loc Key=Workbench.Panel.RedPocket}">
+                                    <StackPanel Orientation="Horizontal" Spacing="4">
+                                        <TextBlock Text="{i18n:Loc Key=Workbench.Panel.RedPocket}" /><ContentControl x:Name="RedPocketDockBadge" VerticalContentAlignment="Center" />
+                                    </StackPanel>
+                                </TabStripItem>
+                                <TabStripItem Tag="{x:Static messages:MessageKind.Guard}" AutomationProperties.Name="{i18n:Loc Key=Workbench.Panel.Guard}">
+                                    <StackPanel Orientation="Horizontal" Spacing="4">
+                                        <TextBlock Text="{i18n:Loc Key=Workbench.Panel.Guard}" /><ContentControl x:Name="GuardDockBadge" VerticalContentAlignment="Center" />
+                                    </StackPanel>
+                                </TabStripItem>
+                            </TabStrip>
+                        </ScrollViewer>
+                        <Grid x:Name="PaidPages" Grid.Row="1">
+                            <ContentControl x:Name="SuperChatHost" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" />
+                            <ContentControl x:Name="GiftHost" IsVisible="False" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" />
+                            <ContentControl x:Name="RedPocketHost" IsVisible="False" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" />
+                            <ContentControl x:Name="GuardHost" IsVisible="False" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" />
+                        </Grid>
+                    </Grid>
+                </Grid>
+                <Grid x:Name="SingleHost" Grid.Row="1" IsVisible="False">
+                    <ContentControl x:Name="SingleDanmuHost" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" />
+                    <ContentControl x:Name="SingleSuperChatHost" IsVisible="False" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" />
+                    <ContentControl x:Name="SingleGiftHost" IsVisible="False" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" />
+                    <ContentControl x:Name="SingleRedPocketHost" IsVisible="False" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" />
+                    <ContentControl x:Name="SingleGuardHost" IsVisible="False" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" />
+                </Grid>
+            </Grid>
+            <Grid x:Name="WorkspaceDrawer" IsVisible="False">
+                <Border Background="#66000000" PointerPressed="DrawerBackdrop_OnPointerPressed" />
+                <ContentControl x:Name="DrawerSidebarHost" HorizontalAlignment="Left" Width="300"
+                                HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" />
+            </Grid>
+        </Grid>
+        <TextBlock Grid.Row="3" Text="{Binding Notice}" IsVisible="{Binding HasNotice}" Classes="muted" FontSize="11" Margin="12,0,12,4" TextTrimming="CharacterEllipsis" />
+        <Border x:Name="PageOverlay" Grid.RowSpan="4" Background="{DynamicResource AppBackgroundBrush}" IsVisible="False">
+            <Grid RowDefinitions="Auto,*" Margin="12">
+                <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10" Margin="0,0,0,10">
+                    <Button Classes="ipadIconButton" Click="Back_OnClick"
+                            ToolTip.Tip="{i18n:Loc Key=iPad.Back}" AutomationProperties.Name="{i18n:Loc Key=iPad.Back}">
+                        <LucideIcon Kind="ArrowLeft" Size="18" />
+                    </Button>
+                    <TextBlock x:Name="PageTitle" Grid.Column="1" Classes="pageTitle" VerticalAlignment="Center" />
+                </Grid>
+                <ContentControl x:Name="PageHost" Grid.Row="1" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" />
+            </Grid>
+        </Border>
+        <Border x:Name="ConfirmationOverlay" Grid.RowSpan="4" Background="#99000000" IsVisible="False" Padding="24">
+            <Border Classes="ipadCard" MaxWidth="520" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <StackPanel Spacing="16">
+                    <TextBlock x:Name="ConfirmationTitle" Classes="pageTitle" TextWrapping="Wrap" />
+                    <TextBlock x:Name="ConfirmationMessage" TextWrapping="Wrap" />
+                    <Grid ColumnDefinitions="*,*" ColumnSpacing="12">
+                        <Button Content="{i18n:Loc Key=UI.BrowserCookieLoginWindow.Cancel}" Click="CancelConfirmation_OnClick" HorizontalAlignment="Stretch" />
+                        <Button Grid.Column="1" Content="{i18n:Loc Key=Panel.Confirm}" Classes="primaryButton" Click="AcceptConfirmation_OnClick" HorizontalAlignment="Stretch" />
+                    </Grid>
+                </StackPanel>
+            </Border>
+        </Border>
+    </Grid>
+</UserControl>

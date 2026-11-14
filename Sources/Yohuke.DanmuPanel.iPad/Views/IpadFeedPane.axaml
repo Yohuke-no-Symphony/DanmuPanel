@@ -1,0 +1,22 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:i18n="using:Yohuke.DanmuPanel.I18n"
+             x:Class="Yohuke.DanmuPanel.iPad.Views.IpadFeedPane">
+    <Border Classes="ipadWorkbenchPanel">
+        <Grid RowDefinitions="Auto,*">
+            <Grid x:Name="PaneHeader" ColumnDefinitions="Auto,Auto,*,Auto" RowDefinitions="Auto,Auto" Margin="8,0,2,0" MinHeight="44">
+                <TextBlock x:Name="TitleText" Classes="ipadPanelTitle" TextTrimming="CharacterEllipsis" />
+                <ContentControl x:Name="BadgeHost" Grid.Column="1" VerticalContentAlignment="Center" Margin="4,0,0,0" />
+                <ContentControl x:Name="ReadTabsHost" Grid.Column="2" VerticalContentAlignment="Center" Margin="4,0,0,0" />
+                <Panel Grid.Column="3">
+                    <ContentControl x:Name="ActionsHost" VerticalContentAlignment="Center" />
+                    <Button x:Name="MoreActionsButton" Classes="ipadIconButton" IsVisible="False"
+                            ToolTip.Tip="{i18n:Loc Key=iPad.PanelActions}" AutomationProperties.Name="{i18n:Loc Key=iPad.PanelActions}">
+                        <LucideIcon Kind="Ellipsis" Size="16" />
+                    </Button>
+                </Panel>
+            </Grid>
+            <ContentControl x:Name="FeedHost" Grid.Row="1" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" />
+        </Grid>
+    </Border>
+</UserControl>
